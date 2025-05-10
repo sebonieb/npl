@@ -15,6 +15,9 @@
       margin: 10px 0;
       padding: 10px;
     }
+    textarea {
+      height: 400px;
+    }
     h2 {
       margin-top: 30px;
     }
@@ -37,41 +40,48 @@
   <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
   <script>
+    const opisStaly = `Uczuleń na leki nie zgłasza.
+Temp.  st C, BP / mmHg, RR /min, SpO2 %
+Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`;
+
+    const opisEKG = `EKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.`;
+
+    const zaleceniaStale = `Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
+
     const opisyChorob = {
-      infekcja: `35-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności. Uczuleń na leki nie zgłasza.
-Temp. 36.9 st C, BP 120/80 mmHg, RR 14/min, SpO2 98%
-Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. Gardło zaczerwienione, migdałki powiększone.
-EKG - rytm serca zatokowy, miarowy o częstości 82/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
-Wydano zalecenia: leczenie objawowe, płyny, preparaty przeciwgorączkowe i przeciwbólowe. 
-Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+      infekcja: `35-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.
+${opisStaly}
+Gardło zaczerwienione, migdałki powiększone.
+${opisEKG}
+Wydano zalecenia: leczenie objawowe, płyny, preparaty przeciwgorączkowe i przeciwbólowe.
+${zaleceniaStale}`,
 
-      bol_brzucha: `40-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni. Uczuleń na leki nie zgłasza.
-Temp. 37.1 st C, BP 125/85 mmHg, RR 16/min, SpO2 97%
-Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. Bez nudności ani wymiotów, objaw Blumberga ujemny.
-EKG - rytm serca zatokowy, miarowy o częstości 78/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
-Wydano zalecenia: dieta lekkostrawna, nawodnienie, obserwacja objawów. 
-Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+      bol_brzucha: `40-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni.
+${opisStaly}
+Bez nudności ani wymiotów, objaw Blumberga ujemny.
+${opisEKG}
+Wydano zalecenia: dieta lekkostrawna, nawodnienie, obserwacja objawów.
+${zaleceniaStale}`,
 
-      zapalenie_pecherza: `28-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki. Uczuleń na leki nie zgłasza.
-Temp. 36.7 st C, BP 110/70 mmHg, RR 14/min, SpO2 99%
-Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. Bez bólu w okolicy lędźwiowej.
-EKG - rytm serca zatokowy, miarowy o częstości 74/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+      zapalenie_pecherza: `28-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki.
+${opisStaly}
+Bez bólu w okolicy lędźwiowej.
+${opisEKG}
 Wydano zalecenia: nawodnienie, preparaty przeciwbakteryjne na bazie furaginy.
-Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+${zaleceniaStale}`,
 
-      zapalenie_oskrzeli: `52-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona. Uczuleń na leki nie zgłasza.
-Temp. 37.8 st C, BP 135/85 mmHg, RR 18/min, SpO2 96%
-Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. W badaniu: furczenia i świsty nad oskrzelami.
-EKG - rytm serca zatokowy, miarowy o częstości 90/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+      zapalenie_oskrzeli: `52-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona.
+${opisStaly}
+W badaniu: furczenia i świsty nad oskrzelami.
+${opisEKG}
 Wydano zalecenia: leki rozrzedzające wydzielinę, leki przeciwkaszlowe, inhalacje.
-Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+${zaleceniaStale}`,
 
-      zatrucie_pokarmowe: `30-letni pacjent zgłosił się do NPL z powodu biegunki i nudności. W wywiadzie bóle brzucha o charakterze skurczowym, bez gorączki. Uczuleń na leki nie zgłasza.
-Temp. 36.5 st C, BP 115/75 mmHg, RR 15/min, SpO2 98%
-Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.
-EKG - rytm serca zatokowy, miarowy o częstości 76/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+      zatrucie_pokarmowe: `30-letni pacjent zgłosił się do NPL z powodu biegunki i nudności. W wywiadzie bóle brzucha o charakterze skurczowym, bez gorączki.
+${opisStaly}
+${opisEKG}
 Wydano zalecenia: nawadnianie doustne, dieta lekkostrawna.
-Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`
+${zaleceniaStale}`
     };
 
     function wstawOpisChoroby() {
