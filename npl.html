@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Szablony NPL</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    button { margin: 5px 0; padding: 10px; width: 100%; }
+    textarea { width: 100%; height: 150px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Szablony wywiadu i badania – NPL</h1>
+
+  <button onclick="wstawSzablon('infekcja')">Infekcja górnych dróg oddechowych</button>
+  <button onclick="wstawSzablon('bol_brzucha')">Ból brzucha</button>
+
+  <textarea id="poleTekstowe" readonly></textarea>
+
+  <script>
+    const szablony = {
+      infekcja: `Pacjent zgłasza się z objawami infekcji górnych dróg oddechowych – katar, ból gardła, kaszel od 3 dni. Bez duszności. Gardło zaczerwienione, osłuchowo czysto.`,
+      bol_brzucha: `Pacjent skarży się na ból brzucha w nadbrzuszu od 2 dni. Brzuch miękki, objaw Blumberga ujemny. Bez nudności ani wymiotów.`
+    };
+
+    function wstawSzablon(typ) {
+      document.getElementById('poleTekstowe').value = szablony[typ];
+    }
+  </script>
+</body>
+</html>
