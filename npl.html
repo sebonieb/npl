@@ -2,29 +2,127 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Szablony NPL</title>
+  <title>Szablony NPL + EKG</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    button { margin: 5px 0; padding: 10px; width: 100%; }
-    textarea { width: 100%; height: 150px; margin-top: 10px; }
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    select, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+    }
+    h2 {
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
   </style>
 </head>
 <body>
-  <h1>Szablony wywiadu i badania – NPL</h1>
+  <h1>Szablony NPL – wywiad i EKG</h1>
 
-  <button onclick="wstawSzablon('infekcja')">Infekcja górnych dróg oddechowych</button>
-  <button onclick="wstawSzablon('bol_brzucha')">Ból brzucha</button>
+  <h2>1. Jednostka chorobowa</h2>
+  <label for="chorobaSelect">Wybierz jednostkę chorobową:</label>
+  <select id="chorobaSelect" onchange="wstawOpisChoroby()">
+    <option value="">-- wybierz --</option>
+    <option value="bol_brzucha">Ból brzucha</option>
+    <option value="infekcja">Infekcja górnych dróg oddechowych</option>
+    <option value="zapalenie_pecherza">Zapalenie pęcherza</option>
+    <option value="zapalenie_oskrzeli">Zapalenie oskrzeli</option>
+    <option value="zatrucie_pokarmowe">Zatrucie pokarmowe</option>
+  </select>
 
-  <textarea id="poleTekstowe" readonly></textarea>
+  <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
+
+  <h2>2. EKG</h2>
+  <label for="ekgSelect">Wybierz szablon opisu EKG:</label>
+  <select id="ekgSelect" onchange="wstawOpisEKG()">
+    <option value="">-- wybierz --</option>
+    <option value="sinus">Rytm zatokowy</option>
+    <option value="af">Migotanie przedsionków</option>
+    <option value="rbbb">RBBB</option>
+    <option value="lbbb">LBBB</option>
+    <option value="lah">LAH</option>
+    <option value="lph">LPH</option>
+  </select>
+
+  <textarea id="ekgOpis" placeholder="Tu pojawi się opis EKG..." readonly></textarea>
+
+  <h3>Kryteria diagnostyczne – Tabela skrótowa</h3>
+  <table>
+    <tr>
+      <th>Element</th>
+      <th>Opis</th>
+    </tr>
+    <tr>
+      <td>Rytm zatokowy</td>
+      <td>Zał. P dodatnie w I, II, ujemne w aVR; przed każdym QRS; odstęp PQ 120–200 ms</td>
+    </tr>
+    <tr>
+      <td>Oś serca</td>
+      <td>Pośrednia: dodatnie I i aVF; lewa: +I, –aVF; prawa: –I, +aVF</td>
+    </tr>
+    <tr>
+      <td>RBBB</td>
+      <td>QRS &gt;120 ms, rSR' w V1, szerokie S w I, V6</td>
+    </tr>
+    <tr>
+      <td>LBBB</td>
+      <td>QRS &gt;120 ms, brak R w V1 (całkowicie ujemny QRS), szeroki R w I, V6</td>
+    </tr>
+    <tr>
+      <td>LAH</td>
+      <td>Oś serca lewogram, qR w I, rS w III</td>
+    </tr>
+    <tr>
+      <td>LPH</td>
+      <td>Oś serca prawogram, rS w I, qR w III</td>
+    </tr>
+  </table>
 
   <script>
-    const szablony = {
-      infekcja: `Pacjent zgłasza się z objawami infekcji górnych dróg oddechowych – katar, ból gardła, kaszel od 3 dni. Bez duszności. Gardło zaczerwienione, osłuchowo czysto.`,
-      bol_brzucha: `Pacjent skarży się na ból brzucha w nadbrzuszu od 2 dni. Brzuch miękki, objaw Blumberga ujemny. Bez nudności ani wymiotów.`
+    const opisyChorob = {
+      infekcja: `Pacjent zgłasza objawy infekcji górnych dróg oddechowych: katar, ból gardła, kaszel od 3 dni. Bez duszności. Gardło zaczerwienione, osłuchowo czysto.`,
+      bol_brzucha: `Pacjent skarży się na ból brzucha w nadbrzuszu od 2 dni. Brzuch miękki, objaw Blumberga ujemny. Bez nudności ani wymiotów.`,
+      zapalenie_pecherza: `Pacjent zgłasza pieczenie przy mikcji, częstomocz. Bez gorączki. Bez bólu w okolicy lędźwiowej.`,
+      zapalenie_oskrzeli: `Kaszel mokry od kilku dni, świsty słyszalne osłuchowo, brak duszności w spoczynku. Temperatura podwyższona.`,
+      zatrucie_pokarmowe: `Biegunka, nudności, bóle brzucha o charakterze skurczowym. Bez gorączki. Brzuch miękki, niebolesny.`
     };
 
-    function wstawSzablon(typ) {
-      document.getElementById('poleTekstowe').value = szablony[typ];
+    const opisyEKG = {
+      sinus: `Rytm zatokowy, miarowy. Zał. P przed każdym QRS. Oś pośrednia. Brak zaburzeń przewodzenia.`,
+      af: `Migotanie przedsionków. Niemiarowość całkowita. Brak zał. P. Częstość komór 90/min.`,
+      rbbb: `Rytm zatokowy. Zespół QRS szeroki &gt;120 ms. Obraz RBBB: rSR' w V1, szerokie S w I i V6.`,
+      lbbb: `Rytm zatokowy. QRS &gt;120 ms. Brak R w V1, szerokie, rozdwojone R w I i V6 – obraz LBBB.`,
+      lah: `Rytm zatokowy. Oś serca lewogram. qR w I, rS w III – obraz LAH.`,
+      lph: `Rytm zatokowy. Oś serca prawogram. rS w I, qR w III – obraz LPH.`
+    };
+
+    function wstawOpisChoroby() {
+      const select = document.getElementById('chorobaSelect');
+      const output = document.getElementById('chorobaOpis');
+      output.value = opisyChorob[select.value] || '';
+    }
+
+    function wstawOpisEKG() {
+      const select = document.getElementById('ekgSelect');
+      const output = document.getElementById('ekgOpis');
+      output.value = opisyEKG[select.value] || '';
     }
   </script>
 </body>
