@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Szablony NPL + EKG</title>
+  <title>Szablony NPL – Wywiad</title>
   <style>
     body {
       font-family: sans-serif;
@@ -18,25 +18,12 @@
     h2 {
       margin-top: 30px;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      border: 1px solid #aaa;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f0f0f0;
-    }
   </style>
 </head>
 <body>
-  <h1>Szablony NPL – wywiad i EKG</h1>
+  <h1>Szablony NPL – Wywiad i Badanie</h1>
 
-  <h2>1. Jednostka chorobowa</h2>
+  <h2>Jednostka chorobowa</h2>
   <label for="chorobaSelect">Wybierz jednostkę chorobową:</label>
   <select id="chorobaSelect" onchange="wstawOpisChoroby()">
     <option value="">-- wybierz --</option>
@@ -49,80 +36,48 @@
 
   <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
-  <h2>2. EKG</h2>
-  <label for="ekgSelect">Wybierz szablon opisu EKG:</label>
-  <select id="ekgSelect" onchange="wstawOpisEKG()">
-    <option value="">-- wybierz --</option>
-    <option value="sinus">Rytm zatokowy</option>
-    <option value="af">Migotanie przedsionków</option>
-    <option value="rbbb">RBBB</option>
-    <option value="lbbb">LBBB</option>
-    <option value="lah">LAH</option>
-    <option value="lph">LPH</option>
-  </select>
-
-  <textarea id="ekgOpis" placeholder="Tu pojawi się opis EKG..." readonly></textarea>
-
-  <h3>Kryteria diagnostyczne – Tabela skrótowa</h3>
-  <table>
-    <tr>
-      <th>Element</th>
-      <th>Opis</th>
-    </tr>
-    <tr>
-      <td>Rytm zatokowy</td>
-      <td>Zał. P dodatnie w I, II, ujemne w aVR; przed każdym QRS; odstęp PQ 120–200 ms</td>
-    </tr>
-    <tr>
-      <td>Oś serca</td>
-      <td>Pośrednia: dodatnie I i aVF; lewa: +I, –aVF; prawa: –I, +aVF</td>
-    </tr>
-    <tr>
-      <td>RBBB</td>
-      <td>QRS &gt;120 ms, rSR' w V1, szerokie S w I, V6</td>
-    </tr>
-    <tr>
-      <td>LBBB</td>
-      <td>QRS &gt;120 ms, brak R w V1 (całkowicie ujemny QRS), szeroki R w I, V6</td>
-    </tr>
-    <tr>
-      <td>LAH</td>
-      <td>Oś serca lewogram, qR w I, rS w III</td>
-    </tr>
-    <tr>
-      <td>LPH</td>
-      <td>Oś serca prawogram, rS w I, qR w III</td>
-    </tr>
-  </table>
-
   <script>
     const opisyChorob = {
-      infekcja: `Pacjent zgłasza objawy infekcji górnych dróg oddechowych: katar, ból gardła, kaszel od 3 dni. Bez duszności. Gardło zaczerwienione, osłuchowo czysto.`,
-      bol_brzucha: `Pacjent skarży się na ból brzucha w nadbrzuszu od 2 dni. Brzuch miękki, objaw Blumberga ujemny. Bez nudności ani wymiotów.`,
-      zapalenie_pecherza: `Pacjent zgłasza pieczenie przy mikcji, częstomocz. Bez gorączki. Bez bólu w okolicy lędźwiowej.`,
-      zapalenie_oskrzeli: `Kaszel mokry od kilku dni, świsty słyszalne osłuchowo, brak duszności w spoczynku. Temperatura podwyższona.`,
-      zatrucie_pokarmowe: `Biegunka, nudności, bóle brzucha o charakterze skurczowym. Bez gorączki. Brzuch miękki, niebolesny.`
-    };
+      infekcja: `35-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności. Uczuleń na leki nie zgłasza.
+Temp. 36.9 st C, BP 120/80 mmHg, RR 14/min, SpO2 98%
+Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. Gardło zaczerwienione, migdałki powiększone.
+EKG - rytm serca zatokowy, miarowy o częstości 82/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+Wydano zalecenia: leczenie objawowe, płyny, preparaty przeciwgorączkowe i przeciwbólowe. 
+Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
 
-    const opisyEKG = {
-      sinus: `Rytm zatokowy, miarowy. Zał. P przed każdym QRS. Oś pośrednia. Brak zaburzeń przewodzenia.`,
-      af: `Migotanie przedsionków. Niemiarowość całkowita. Brak zał. P. Częstość komór 90/min.`,
-      rbbb: `Rytm zatokowy. Zespół QRS szeroki &gt;120 ms. Obraz RBBB: rSR' w V1, szerokie S w I i V6.`,
-      lbbb: `Rytm zatokowy. QRS &gt;120 ms. Brak R w V1, szerokie, rozdwojone R w I i V6 – obraz LBBB.`,
-      lah: `Rytm zatokowy. Oś serca lewogram. qR w I, rS w III – obraz LAH.`,
-      lph: `Rytm zatokowy. Oś serca prawogram. rS w I, qR w III – obraz LPH.`
+      bol_brzucha: `40-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni. Uczuleń na leki nie zgłasza.
+Temp. 37.1 st C, BP 125/85 mmHg, RR 16/min, SpO2 97%
+Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. Bez nudności ani wymiotów, objaw Blumberga ujemny.
+EKG - rytm serca zatokowy, miarowy o częstości 78/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+Wydano zalecenia: dieta lekkostrawna, nawodnienie, obserwacja objawów. 
+Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+
+      zapalenie_pecherza: `28-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki. Uczuleń na leki nie zgłasza.
+Temp. 36.7 st C, BP 110/70 mmHg, RR 14/min, SpO2 99%
+Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. Bez bólu w okolicy lędźwiowej.
+EKG - rytm serca zatokowy, miarowy o częstości 74/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+Wydano zalecenia: nawodnienie, preparaty przeciwbakteryjne na bazie furaginy.
+Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+
+      zapalenie_oskrzeli: `52-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona. Uczuleń na leki nie zgłasza.
+Temp. 37.8 st C, BP 135/85 mmHg, RR 18/min, SpO2 96%
+Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny. W badaniu: furczenia i świsty nad oskrzelami.
+EKG - rytm serca zatokowy, miarowy o częstości 90/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+Wydano zalecenia: leki rozrzedzające wydzielinę, leki przeciwkaszlowe, inhalacje.
+Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`,
+
+      zatrucie_pokarmowe: `30-letni pacjent zgłosił się do NPL z powodu biegunki i nudności. W wywiadzie bóle brzucha o charakterze skurczowym, bez gorączki. Uczuleń na leki nie zgłasza.
+Temp. 36.5 st C, BP 115/75 mmHg, RR 15/min, SpO2 98%
+Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.
+EKG - rytm serca zatokowy, miarowy o częstości 76/min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.
+Wydano zalecenia: nawadnianie doustne, dieta lekkostrawna.
+Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`
     };
 
     function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
       const output = document.getElementById('chorobaOpis');
       output.value = opisyChorob[select.value] || '';
-    }
-
-    function wstawOpisEKG() {
-      const select = document.getElementById('ekgSelect');
-      const output = document.getElementById('ekgOpis');
-      output.value = opisyEKG[select.value] || '';
     }
   </script>
 </body>
