@@ -190,16 +190,66 @@
     const zaleceniaStale = `\nW badaniu przedmiotowym nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wystąpienia niepokojących objawów w tym wystąpienia bólu o charakterze narastającym, gorączki, trudności w oddychaniu, wymiotów, zaburzeń świadomości lub innych objawów alarmowych, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
 
     const opisyChorob = {
-      infekcja: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+  astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie świszczący oddech, suchy kaszel, znana astma oskrzelowa. ${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      bol_brzucha: `00-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+  bol_gardla: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła nasilającego się przy przełykaniu. W wywiadzie stany podgorączkowe, kaszel. ${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      zapalenie_pecherza: `00-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+  infekcja: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      zapalenie_oskrzeli: `00-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+  pochp: `00-letni pacjent zgłosił się do NPL z powodu duszności i nasilonego kaszlu. W wywiadzie POChP, świsty osłuchowo.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      zatrucie_pokarmowe: `00-letni pacjent zgłosił się do NPL z powodu biegunki i nudności. W wywiadzie bóle brzucha o charakterze skurczowym, bez gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`
-    };
+  zapalenie_oskrzeli: `00-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zapalenie_pluc: `00-letni pacjent zgłosił się do NPL z powodu kaszlu i gorączki. W wywiadzie dreszcze, osłabienie, kaszel produktywny.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  bol_klatki: `00-letni pacjent zgłosił się do NPL z powodu bólu w klatce piersiowej. W wywiadzie ból niezwiązany z wysiłkiem, nasilający się przy głębokim wdechu.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  nadcisnienie: `00-letni pacjent zgłosił się do NPL z powodu podwyższonego ciśnienia tętniczego. W wywiadzie bóle głowy, brak duszności.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  rwa_kulszowa: `00-letni pacjent zgłosił się do NPL z powodu bólu promieniującego do kończyny dolnej. W wywiadzie nasilenie przy schylaniu.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zawroty_glowy: `00-letni pacjent zgłosił się do NPL z powodu zawrotów głowy. W wywiadzie brak zaburzeń mowy, widzenia, niedowładów.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  bol_kregoslupa: `00-letni pacjent zgłosił się do NPL z powodu bólu kręgosłupa lędźwiowego. W wywiadzie ból nasila się przy ruchu.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  bol_szyi: `00-letni pacjent zgłosił się do NPL z powodu bólu karku. W wywiadzie napięcie mięśni szyi, ograniczona ruchomość.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  bol_ucha: `00-letni pacjent zgłosił się do NPL z powodu bólu ucha. W wywiadzie uczucie zatkania, brak gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zapalenie_oka: `00-letni pacjent zgłosił się do NPL z powodu zaczerwienienia i łzawienia oka. W wywiadzie brak urazu.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  biegunka: `00-letni pacjent zgłosił się do NPL z powodu biegunki. W wywiadzie kilka luźnych stolców na dobę, brak gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  bol_brzucha: `00-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  dna_moczanowa: `00-letni pacjent zgłosił się do NPL z powodu bólu i obrzęku stawu śródstopno-paliczkowego. W wywiadzie znana hiperurykemia.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  wymioty: `00-letni pacjent zgłosił się do NPL z powodu wymiotów. W wywiadzie ból brzucha i brak apetytu.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zapalenie_jamy_ustnej: `00-letni pacjent zgłosił się do NPL z powodu bólu jamy ustnej i trudności w połykaniu.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  cewnikowanie: `00-letni pacjent zgłosił się do NPL z powodu zatrzymania moczu. Zakwalifikowano do cewnikowania.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  kolka_nerkowa: `00-letni pacjent zgłosił się do NPL z powodu silnego bólu w okolicy lędźwiowej, promieniującego do pachwiny.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zapalenie_nerek: `00-letni pacjent zgłosił się do NPL z powodu gorączki i bólu w okolicy lędźwiowej. W badaniu dodatni objaw Goldflama.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zapalenie_pecherza: `00-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  alergia: `00-letni pacjent zgłosił się do NPL z powodu wysypki i świądu skóry. W wywiadzie kontakt z alergenem.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  ugryzienie_kleszcz: `00-letni pacjent zgłosił się do NPL po ukąszeniu przez kleszcza. Miejsce ukąszenia bez rumienia wędrującego.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  ugryzienie_kot: `00-letni pacjent zgłosił się do NPL po ugryzieniu przez kota. Rana oczyszczona, brak cech zakażenia miejscowego.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  ugryzienie_owad: `00-letni pacjent zgłosił się do NPL po ugryzieniu przez owada. Miejsce ugryzienia zaczerwienione, obrzęk.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  ugryzienie_pies: `00-letni pacjent zgłosił się do NPL po pogryzieniu przez psa. Rana oczyszczona, brak gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  hiperglikemia: `00-letni pacjent zgłosił się do NPL z powodu wysokiego poziomu glukozy we krwi. W wywiadzie cukrzyca typu 2.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
+
+  zgon: `Stwierdzono zgon. Brak czynności życiowych. Brak akcji serca, brak oddechu, źrenice szerokie, nieruchome, brak reakcji na światło.${opisTemp}`
+};
 
     function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
