@@ -50,38 +50,68 @@
 
   <label for="chorobaSelect">Wybierz jednostkę chorobową:</label>
   <select id="chorobaSelect" onchange="wstawOpisChoroby()">
-    <option value="">-- wybierz --</option>
-    <option value="bol_brzucha">Ból brzucha</option>
-    <option value="bol_gardla">Ból gardła</option>
-    <option value="bol_kregoslupa">Ból kręgosłupa</option>
-    <option value="bol_klatki">Ból w klatce</option>
-    <option value="bol_szyi">Ból karku</option>
-    <option value="bol_glowy">Ból głowy</option>
-    <option value="bol_ucha">Ból ucha</option>
-    <option value="infekcja">Infekcja dróg oddechowych</option>
-    <option value="zapalenie_pecherza">Zapalenie pęcherza</option>
-    <option value="wymioty">Wymioty</option>
-    <option value="zawroty_glowy">Zawroty głowy</option>
-    <option value="biegunka">Biegunka</option>
-    <option value="zapalenie_oka">Zapalenie oka</option>
-    <option value="rwa_kulszowa">Rwa kulszowa</option>
-    <option value="zapalenie_jamy_ustnej">Zapalenie jamy ustnej</option>
+  <option value="">-- wybierz --</option>
+
+  <optgroup label="🫁 Układ oddechowy">
     <option value="astma">Astma</option>
-    <option value="pochp">Pochp</option>
-    <option value="zapalenie_pluc">Zapalenie pluc</option>
+    <option value="bol_gardla">Ból gardła</option>
+    <option value="infekcja">Infekcja dróg oddechowych</option>
+    <option value="pochp">POChP</option>
     <option value="zapalenie_oskrzeli">Zapalenie oskrzeli</option>
-    <option value="dna_moczanowa">Dna moczanowa</option>
-    <option value="hiperglikemia">Hiperglikemia</option>
-    <option value="kolka_nerkowa">Kolka nerkowa</option>
+    <option value="zapalenie_pluc">Zapalenie płuc</option>
+  </optgroup>
+
+  <optgroup label="❤️ Układ sercowo-naczyniowy">
+    <option value="bol_klatki">Ból w klatce piersiowej</option>
     <option value="nadcisnienie">Nadciśnienie tętnicze</option>
-    <option value="ugryzienie_kleszcz">Ugryzienie kleszcz</option>
-    <option value="ugryzienie_pies">Ugryzienie pies</option>
-    <option value="ugryzienie_kot">Ugryzienie kot</option>
-    <option value="ugryzienie_owad">Ugryzienie owad</option>
-    <option value="zgon">Zgon</option>
+  </optgroup>
+
+  <optgroup label="🧠 Układ nerwowy">
+    <option value="rwa_kulszowa">Rwa kulszowa</option>
+    <option value="zawroty_glowy">Zawroty głowy</option>
+  </optgroup>
+
+  <optgroup label="🧍‍♂️ Układ ruchu / mięśniowo-szkieletowy">
+    <option value="bol_kregoslupa">Ból kręgosłupa</option>
+    <option value="bol_szyi">Ból karku</option>
+  </optgroup>
+
+  <optgroup label="👂 Narządy zmysłów">
+    <option value="bol_ucha">Ból ucha</option>
+    <option value="zapalenie_oka">Zapalenie oka</option>
+  </optgroup>
+
+  <optgroup label="🍽 Układ pokarmowy">
+    <option value="biegunka">Biegunka</option>
+    <option value="bol_brzucha">Ból brzucha</option>
+    <option value="dna_moczanowa">Dna moczanowa</option>
+    <option value="wymioty">Wymioty</option>
+    <option value="zapalenie_jamy_ustnej">Zapalenie jamy ustnej</option>
+  </optgroup>
+
+  <optgroup label="🧑‍🦲 Układ moczowo-płciowy">
     <option value="cewnikowanie">Cewnikowanie</option>
+    <option value="kolka_nerkowa">Kolka nerkowa</option>
     <option value="zapalenie_nerek">Ostre odmiedniczkowe zapalenie nerek</option>
-  </select>
+    <option value="zapalenie_pecherza">Zapalenie pęcherza</option>
+  </optgroup>
+
+  <optgroup label="🦠 Immunologia i ukąszenia">
+    <option value="alergia">Alergia</option>
+    <option value="ugryzienie_kleszcz">Ugryzienie przez kleszcza</option>
+    <option value="ugryzienie_kot">Ugryzienie przez kota</option>
+    <option value="ugryzienie_owad">Ugryzienie przez owada</option>
+    <option value="ugryzienie_pies">Ugryzienie przez psa</option>
+  </optgroup>
+
+  <optgroup label="🧪 Metabolizm i endokrynologia">
+    <option value="hiperglikemia">Hiperglikemia</option>
+  </optgroup>
+
+  <optgroup label="⚰ Inne / stany nagłe">
+    <option value="zgon">Zgon</option>
+  </optgroup>
+</select>
 
   <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
