@@ -2,31 +2,51 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Szablony NPL – Wywiad</title>
+  <title>Szablony NPL</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
       max-width: 900px;
       margin: auto;
+      background-color: #fafafa;
     }
-    select, textarea {
+    select, textarea, button, summary {
       width: 100%;
       margin: 10px 0;
       padding: 10px;
+      font-size: 16px;
     }
     textarea {
       height: 400px;
+      font-size: 18px;
+      line-height: 1.5;
     }
-    h2 {
-      margin-top: 30px;
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    details {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      background-color: #eee;
+    }
+    label {
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>Szablony NPL – Wywiad i Badanie</h1>
 
-  <h2>Jednostka chorobowa</h2>
   <label for="chorobaSelect">Wybierz jednostkę chorobową:</label>
   <select id="chorobaSelect" onchange="wstawOpisChoroby()">
     <option value="">-- wybierz --</option>
@@ -38,6 +58,20 @@
   </select>
 
   <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
+
+  <button onclick="kopiujOpis()">Kopiuj opis</button>
+
+  <details>
+    <summary>Zasady opisu EKG</summary>
+    <ul>
+      <li><strong>Rytm zatokowy:</strong> Załamki P przed każdym QRS, regularny rytm.</li>
+      <li><strong>Oś serca:</strong> Prawidłowa (0° do +90°), lewa (< 0°), prawa (> +90°).</li>
+      <li><strong>LBBB:</strong> Szeroki QRS > 120 ms, brak załamka Q w I, V5-V6, dodatni T w V1.</li>
+      <li><strong>RBBB:</strong> QRS > 120 ms, rsR' w V1-V3, szerokie S w I, V6.</li>
+      <li><strong>LAH (lewogram przedni):</strong> Lewa oś, qR w I, aVL, rS w II, III, aVF.</li>
+      <li><strong>LPG (lewy przodozwojowy):</strong> Oś serca -45° do -90°, zmiany podobne do LAH.</li>
+    </ul>
+  </details>
 
   <script>
     const opisStaly = `Uczuleń na leki nie zgłasza.
@@ -88,6 +122,17 @@ ${zaleceniaStale}`
       const select = document.getElementById('chorobaSelect');
       const output = document.getElementById('chorobaOpis');
       output.value = opisyChorob[select.value] || '';
+    }
+
+    function kopiujOpis() {
+      const tekst = document.getElementById('chorobaOpis').value;
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = tekst;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempTextArea);
+      alert("Skopiowano do schowka!");
     }
   </script>
 </body>
