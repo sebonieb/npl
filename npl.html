@@ -148,8 +148,8 @@
     <span id="copyMsg" class="copy-msg">✓ Skopiowano!</span>
   </div>
 
-  <details open>
-    <summary onclick="this.scrollIntoView({behavior: 'smooth', block: 'start'})">Zasady opisu EKG</summary>
+ <details id="ekgDetails">
+  <summary onclick="scrollToEkg()">Zasady opisu EKG</summary>
 <table style="border-collapse: collapse; width: 100%; font-family: sans-serif;">
   <thead>
     <tr style="background-color: #f2f2f2;">
@@ -322,6 +322,12 @@ function getGenderSuffixes(gender) {
       document.getElementById('chorobaSelect').selectedIndex = 0;
       document.getElementById('wiek').value = '';
       document.querySelector('input[value="M"]').checked = true;
+    }
+    function scrollToEkg() {
+      const el = document.getElementById('ekgDetails');
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100); // opóźnienie pozwala na rozwinięcie <details>
     }
   </script>
 </body>
