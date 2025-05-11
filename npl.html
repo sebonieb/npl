@@ -66,8 +66,7 @@
   </style>
 </head>
 <body>
-
-    <label>Płeć pacjenta:</label>
+  <label>Płeć pacjenta:</label>
   <div class="gender-group">
     <label><input type="radio" name="plec" value="M" checked> Mężczyzna</label>
     <label><input type="radio" name="plec" value="K"> Kobieta</label>
@@ -140,12 +139,14 @@
     <option value="zgon">Zgon</option>
   </optgroup>
 </select>
-  <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
+   <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
+  <button onclick="wstawOpisChoroby()">Generuj opis</button>
+  <button onclick="resetForm()">Wyczyść</button>
   <button onclick="kopiujOpis()">Kopiuj opis</button><span id="copyMsg" class="copy-msg">✓ Skopiowano!</span>
 
-  <details>
-    <summary>Zasady opisu EKG</summary>
+  <details open>
+    <summary onclick="this.scrollIntoView({behavior: 'smooth', block: 'start'})">Zasady opisu EKG</summary>
 <table style="border-collapse: collapse; width: 100%; font-family: sans-serif;">
   <thead>
     <tr style="background-color: #f2f2f2;">
@@ -200,7 +201,7 @@
   </tbody>
 </table>
   </details>
-  <script>
+   <script>
     const opisTemp = `\n\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`;
     const opisBadanieBase = {
       M: `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`,
@@ -210,9 +211,9 @@
     const zaleceniaStale = `\nW badaniu przedmiotowym nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wystąpienia niepokojących objawów w tym wystąpienia bólu o charakterze narastającym, gorączki, trudności w oddychaniu, wymiotów, zaburzeń świadomości lub innych objawów alarmowych, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
 
     const opisyChorob = {
-  astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie świszczący oddech, suchy kaszel, znana astma oskrzelowa. `,
+  astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie świszczący oddech, suchy kaszel, znana astma oskrzelowa.`,
 
-  bol_gardla: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła nasilającego się przy przełykaniu. W wywiadzie stany podgorączkowe, kaszel. `,
+  bol_gardla: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła nasilającego się przy przełykaniu. W wywiadzie stany podgorączkowe, kaszel.`,
 
   infekcja: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.`,
 
@@ -271,15 +272,13 @@
   zgon: `Stwierdzono zgon. Brak czynności życiowych. Brak akcji serca, brak oddechu, źrenice szerokie, nieruchome, brak reakcji na światło.`
 };
 
-    function getGenderSuffixes(gender) {
+  function getGenderSuffixes(gender) {
       return gender === 'K' ? {
         pacjent: 'pacjentka',
-        zgłosil: 'zgłosiła',
         zgłosil_sie: 'zgłosiła się',
         letni: 'letnia'
       } : {
         pacjent: 'pacjent',
-        zgłosil: 'zgłosił',
         zgłosil_sie: 'zgłosił się',
         letni: 'letni'
       };
@@ -295,9 +294,8 @@
       let opis = opisyChorob[select.value] || '';
       opis = opis
         .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
-        .replace(/pacjentka|pacjent/, suf.pacjent)
-        .replace(/zgłosił się|zgłosiła się/, suf.zgłosil_sie)
-        .replace(/zgłosił|zgłosiła/, suf.zgłosil);
+        .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
+        .replace(/\bzgłosił(a)? się\b/, suf.zgłosil_sie);
 
       const pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}${opisEKG}${zaleceniaStale}`;
       output.value = pelnyOpis;
@@ -316,7 +314,13 @@
       msg.style.display = 'inline';
       setTimeout(() => msg.style.display = 'none', 2000);
     }
+
+    function resetForm() {
+      document.getElementById('chorobaOpis').value = '';
+      document.getElementById('chorobaSelect').selectedIndex = 0;
+      document.getElementById('wiek').value = '';
+      document.querySelector('input[value="M"]').checked = true;
+    }
   </script>
 </body>
 </html>
-
