@@ -346,10 +346,10 @@ function getGenderSuffixes(gender) {
 
       let pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}`;
         if (badaniaSpecyficzne.hasOwnProperty(select.value)) {
-          pelnyOpis += `\n\n${badaniaSpecyficzne[select.value]}`;
+          pelnyOpis += `\n${badaniaSpecyficzne[select.value]}`;
         }
         if (['rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy', 'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz', 'ugryzienie_kot', 'ugryzienie_owad', 'ugryzienie_pies'].includes(select.value)) {
-          pelnyOpis += `\n\n${opisNeurologiczne}`;
+          pelnyOpis += `\n${opisNeurologiczne}`;
         }
         pelnyOpis += `${opisEKG}${zaleceniaStale}`;
       output.value = pelnyOpis;
