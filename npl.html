@@ -11,7 +11,7 @@
       margin: auto;
       background-color: #fafafa;
     }
-    select, textarea, button, summary {
+    select, textarea, button, summary, input[type="number"] {
       width: 100%;
       margin: 10px 0;
       padding: 10px;
@@ -19,9 +19,9 @@
     }
     textarea {
       height: 400px;
-      font-size: 14px; /* zmniejszona czcionka */
+      font-size: 14px;
       line-height: 1.5;
-      white-space: pre-line; /* zachowuje entery */
+      white-space: pre-line;
     }
     button {
       background-color: #ccc;
@@ -43,6 +43,13 @@
     }
     label {
       font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    .gender-group {
+      display: flex;
+      gap: 20px;
+      margin: 10px 0;
     }
     .copy-msg {
       color: green;
@@ -60,9 +67,11 @@
 </head>
 <body>
 
-  <label for="plec">Płeć pacjenta:</label><br>
-  <label><input type="radio" name="plec" value="M" checked> Mężczyzna</label>
-  <label><input type="radio" name="plec" value="K"> Kobieta</label>
+    <label>Płeć pacjenta:</label>
+  <div class="gender-group">
+    <label><input type="radio" name="plec" value="M" checked> Mężczyzna</label>
+    <label><input type="radio" name="plec" value="K"> Kobieta</label>
+  </div>
 
   <label for="wiek">Wiek pacjenta:</label>
   <input type="number" id="wiek" placeholder="Wpisz wiek, np. 37">
@@ -191,14 +200,13 @@
   </tbody>
 </table>
   </details>
-
   <script>
-    const opisTemp = `\n\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`; // dodane entery przed i po
-
-    const opisBadanie = `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`;
-
+    const opisTemp = `\n\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`;
+    const opisBadanieBase = {
+      M: `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`,
+      K: `Stan ogólny dobra, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`
+    };
     const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
-
     const zaleceniaStale = `\nW badaniu przedmiotowym nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wystąpienia niepokojących objawów w tym wystąpienia bólu o charakterze narastającym, gorączki, trudności w oddychaniu, wymiotów, zaburzeń świadomości lub innych objawów alarmowych, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
 
     const opisyChorob = {
@@ -285,14 +293,14 @@
       const suf = getGenderSuffixes(gender);
 
       let opis = opisyChorob[select.value] || '';
-
       opis = opis
         .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
         .replace(/pacjentka|pacjent/, suf.pacjent)
         .replace(/zgłosił się|zgłosiła się/, suf.zgłosil_sie)
         .replace(/zgłosił|zgłosiła/, suf.zgłosil);
 
-      output.value = opis;
+      const pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}${opisEKG}${zaleceniaStale}`;
+      output.value = pelnyOpis;
     }
 
     function kopiujOpis() {
@@ -311,3 +319,4 @@
   </script>
 </body>
 </html>
+
