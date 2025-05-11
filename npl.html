@@ -330,7 +330,7 @@ function getGenderSuffixes(gender) {
         letni: 'letni'
       };
     }
-
+    const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
     function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
       const output = document.getElementById('chorobaOpis');
@@ -339,6 +339,9 @@ function getGenderSuffixes(gender) {
       const suf = getGenderSuffixes(gender);
 
       let opis = opisyChorob[select.value] || '';
+        if (!opis.endsWith(dopisekKoncowy)) {
+          opis += dopisekKoncowy;
+        }
       opis = opis
         .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
         .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
