@@ -11,11 +11,17 @@
       margin: auto;
       background-color: #fafafa;
     }
-    select, textarea, button, summary, input[type="number"] {
+    select, textarea, summary {
       width: 100%;
       margin: 10px 0;
       padding: 10px;
       font-size: 15px;
+    }
+    input[type="number"] {
+      width: 100px;
+      padding: 10px;
+      font-size: 15px;
+      margin-left: 10px;
     }
     textarea {
       height: 400px;
@@ -28,27 +34,22 @@
       color: #000;
       border: none;
       cursor: pointer;
+      padding: 10px 20px;
+      margin-right: 10px;
+      font-size: 14px;
     }
     button:hover {
       background-color: #bbb;
     }
-    details {
-      margin-top: 20px;
-      font-size: 15px;
-    }
-    summary {
-      cursor: pointer;
-      font-weight: bold;
-      background-color: #eee;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-    }
-    .gender-group {
+    .button-row {
       display: flex;
-      gap: 20px;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
       margin: 10px 0;
     }
     .copy-msg {
@@ -66,14 +67,12 @@
   </style>
 </head>
 <body>
-  <label>Płeć pacjenta:</label>
-  <div class="gender-group">
-    <label><input type="radio" name="plec" value="M" checked> Mężczyzna</label>
-    <label><input type="radio" name="plec" value="K"> Kobieta</label>
-  </div>
 
-  <label for="wiek">Wiek pacjenta:</label>
-  <input type="number" id="wiek" placeholder="Wpisz wiek, np. 37">
+  <div class="info-row">
+    <label><input type="radio" name="plec" value="M" checked> M</label>
+    <label><input type="radio" name="plec" value="K"> K</label>
+    <input type="number" id="wiek" placeholder="Wiek">
+  </div>
 
   <label for="chorobaSelect">Wybierz jednostkę chorobową:</label>
   <select id="chorobaSelect" onchange="wstawOpisChoroby()">
@@ -141,9 +140,12 @@
 </select>
    <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
-  <button onclick="wstawOpisChoroby()">Generuj opis</button>
-  <button onclick="resetForm()">Wyczyść</button>
-  <button onclick="kopiujOpis()">Kopiuj opis</button><span id="copyMsg" class="copy-msg">✓ Skopiowano!</span>
+  <div class="button-row">
+    <button onclick="wstawOpisChoroby()">Generuj opis</button>
+    <button onclick="resetForm()">Wyczyść</button>
+    <button onclick="kopiujOpis()">Kopiuj opis</button>
+    <span id="copyMsg" class="copy-msg">✓ Skopiowano!</span>
+  </div>
 
   <details open>
     <summary onclick="this.scrollIntoView({behavior: 'smooth', block: 'start'})">Zasady opisu EKG</summary>
@@ -201,11 +203,11 @@
   </tbody>
 </table>
   </details>
-   <script>
+    <script>
     const opisTemp = `\n\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`;
     const opisBadanieBase = {
       M: `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`,
-      K: `Stan ogólny dobra, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`
+      K: `Stan ogólna dobra, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`
     };
     const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
     const zaleceniaStale = `\nW badaniu przedmiotowym nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wystąpienia niepokojących objawów w tym wystąpienia bólu o charakterze narastającym, gorączki, trudności w oddychaniu, wymiotów, zaburzeń świadomości lub innych objawów alarmowych, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
@@ -271,8 +273,7 @@
 
   zgon: `Stwierdzono zgon. Brak czynności życiowych. Brak akcji serca, brak oddechu, źrenice szerokie, nieruchome, brak reakcji na światło.`
 };
-
-  function getGenderSuffixes(gender) {
+function getGenderSuffixes(gender) {
       return gender === 'K' ? {
         pacjent: 'pacjentka',
         zgłosil_sie: 'zgłosiła się',
@@ -295,7 +296,7 @@
       opis = opis
         .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
         .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
-        .replace(/\bzgłosił(a)? się\b/, suf.zgłosil_sie);
+        .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
 
       const pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}${opisEKG}${zaleceniaStale}`;
       output.value = pelnyOpis;
