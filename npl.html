@@ -91,9 +91,19 @@
   <optgroup label="❤️ Układ sercowo-naczyniowy">
     <option value="bol_klatki">Ból w klatce piersiowej</option>
     <option value="nadcisnienie">Nadciśnienie tętnicze</option>
+    <option value="obrzek_nog">Obrzęk nóg</option>
+  </optgroup>
+
+  <optgroup label="🍽 Układ pokarmowy">
+    <option value="biegunka">Biegunka</option>
+    <option value="bol_brzucha">Ból brzucha</option>
+    <option value="dna_moczanowa">Dna moczanowa</option>
+    <option value="wymioty">Wymioty</option>
+    <option value="zapalenie_jamy_ustnej">Zapalenie jamy ustnej</option>
   </optgroup>
 
   <optgroup label="🧠 Układ nerwowy">
+    <option value="bol_glowy">Ból głowy</option>
     <option value="rwa_kulszowa">Rwa kulszowa</option>
     <option value="zawroty_glowy">Zawroty głowy</option>
   </optgroup>
@@ -108,12 +118,14 @@
     <option value="zapalenie_oka">Zapalenie oka</option>
   </optgroup>
 
-  <optgroup label="🍽 Układ pokarmowy">
-    <option value="biegunka">Biegunka</option>
-    <option value="bol_brzucha">Ból brzucha</option>
-    <option value="dna_moczanowa">Dna moczanowa</option>
-    <option value="wymioty">Wymioty</option>
-    <option value="zapalenie_jamy_ustnej">Zapalenie jamy ustnej</option>
+  <optgroup label="🧖‍♂️ Dermatologia">
+    <option value="alergia_skory">Alergiczne zapalenie skóry</option>
+    <option value="azs">Atopowe zapalenie skóry</option>
+    <option value="oparzenie_sloneczne">Oparzenie słoneczne</option>
+    <option value="opryszczka">Opryszczka</option>
+    <option value="pokrzywka">Pokrzywka</option>
+    <option value="polpasiec">Półpasiec</option>
+    <option value="roza">Róża</option>
   </optgroup>
 
   <optgroup label="🧑‍🦲 Układ moczowo-płciowy">
@@ -210,6 +222,7 @@
       M: `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny.`,
       K: `Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny.`
     };
+    const opisNeurologiczne = `Badanie neurologiczne: pacjent przytomny, w pełnym kontakcie, bez objawów ogniskowego uszkodzenia OUN, objaw Babińskiego ujemny obustronnie, bez cech oponowych.`;
     const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
     const zaleceniaStale = `Ambulatoryjnie podano: xxxx\n\nZalecenia:\nxxxx\nW badaniu nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wystąpienia objawów alarmowych (np. nasilający się ból, gorączka, trudności w oddychaniu, wymioty, zaburzenia świadomości) o których poinformowano pacjenta. Ponadto przekazano informację o ryzyku związanym z nieprzestrzeganiem zaleceń lekarskich.`;
 
@@ -272,7 +285,28 @@
 
   hiperglikemia: `00-letni pacjent zgłosił się do NPL z powodu wysokiego poziomu glukozy we krwi. W wywiadzie cukrzyca typu 2.`,
 
+  bol_glowy: `00-letni pacjent zgłosił się do NPL z powodu bólu głowy. W wywiadzie ból o charakterze napięciowym, bez objawów towarzyszących typu gorączka, wymioty, zaburzenia widzenia.`,
+
   zgon: `Stwierdzono zgon. Brak czynności życiowych. Brak akcji serca, brak oddechu, źrenice szerokie, nieruchome, brak reakcji na światło.`
+  
+  azs: `00-letni pacjent zgłosił się do NPL z powodu plamistej wysypki, silnego świądu, suchości i pękania skóry. Zgłasza, iż podobne objawy występowały u niego w przeszłości. Inne dolegliwości neguje. W wywiadzie rodzinnym – atopowe zapalenie skóry.`,
+
+  alergia_skory: `00-letni pacjent zgłosił się do NPL z powodu wwystąpienia zmian na owłosionej skórze głowy, które wiąże z niedawnym użyciem farby do włosów. Innych dolegliwości nie podaje. Nie podróżował w ostatnim czasie, nie przyjmował nowych leków. Zaprzecza ugryzieniom owadów i narażeniu na wysokie temperatury.`,
+
+  oparzenie_sloneczne: `00-letni pacjent zgłosił się do NPL z powodu bólu i zaczerwienienia w okolicy skóry karku, ramion oraz podudzi. W dniu wczorajszym spędził dużo czasu na słońcu, nie używając kremu do opalania.`,
+
+  opryszczka: `00-letni pacjent zgłosił się do NPL z powodu występującej od wczoraj swędzącej zmiany, o typie pęcherzykowym, położonej na górnej wardze.`,
+
+  polpasiec: `00-letni pacjent zgłosił się do NPL z powodu trwającego od wczoraj stanu podgorączkowego 37,5°C oraz jednostronnej, bolesnej, swędzącej wysypki o typie grudkowo-pęcherzykowym w obrębie dermatomu Th12.`,
+
+  roza: `00-letni pacjent zgłosił się do NPL z powodu palącego bólu lewej kończyny dolnej oraz trwającej od wczoraj gorączki 38°C i złego samopoczucia. Katar, kaszel i inne dolegliwości neguje. `,
+
+  obrzek_nog: `00-letni pacjent zgłosił się do NPL z powodu powiększenia się obrzęków kończyn dolnych w przeciągu ostatniego tygodnia. Innych dolegliwości nie podaje. Od 2 lat choruje na nadciśnienie tętnicze. Neguje przyjmowanie nowych leków w ostatnim czasie i modyfikację dawkowania leczenia stałego. Występowanie objawów infekcyjnych i chorób płuc neguje.`,
+
+  pokrzywka: `00-letni pacjent zgłosił się do NPL z powodu plamistej wysypki na skórze brzucha oraz silnego świądu. Innym dolegliwościom zaprzecza. Neguje kontakt z substancjami toksycznymi, zmianę produktów do higieny osobistej i środków piorących w ostatnim czasie. Nie przyjmował nowych leków. Neguje ugryzienia owadów, narażenie na wysokie temperatury i podróże.`,
+      
+  zgon: `Stwierdzono zgon. Brak czynności życiowych. Brak akcji serca, brak oddechu, źrenice szerokie, nieruchome, brak reakcji na światło.`
+
 };
 function getGenderSuffixes(gender) {
       return gender === 'K' ? {
@@ -299,7 +333,11 @@ function getGenderSuffixes(gender) {
         .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
         .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
 
-      const pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}${opisEKG}${zaleceniaStale}`;
+      let pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}`;
+        if (['rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy', 'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz', 'ugryzienie_kot', 'ugryzienie_owad', 'ugryzienie_pies'].includes(select.value)) {
+          pelnyOpis += `\n\n${opisNeurologiczne}`;
+        }
+        pelnyOpis += `${opisEKG}${zaleceniaStale}`;
       output.value = pelnyOpis;
     }
 
