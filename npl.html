@@ -44,10 +44,16 @@
     label {
       font-weight: bold;
     }
-    p.gr {
+    .copy-msg {
+      color: green;
+      font-weight: bold;
+      display: none;
+      margin-left: 10px;
+    }
+    span.gr {
       color: green;
     }
-    p.re {
+    span.re {
       color:red;
     }
   </style>
@@ -119,9 +125,20 @@
   </optgroup>
 </select>
 
+  <label for="plec">Płeć pacjenta:</label><br>
+  <label><input type="radio" name="plec" value="M" checked> Mężczyzna</label>
+  <label><input type="radio" name="plec" value="K"> Kobieta</label>
+
+  <label for="wiek">Wiek pacjenta:</label>
+  <input type="number" id="wiek" placeholder="Wpisz wiek, np. 37">
+
+  <label for="chorobaSelect">Wybierz jednostkę chorobową:</label>
+  <select id="chorobaSelect" onchange="wstawOpisChoroby()">
+    <!-- tu zachowujesz swoje opcje -->
+  </select>
   <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
-  <button onclick="kopiujOpis()">Kopiuj opis</button>
+  <button onclick="kopiujOpis()">Kopiuj opis</button><span id="copyMsg" class="copy-msg">✓ Skopiowano!</span>
 
   <details>
     <summary>Zasady opisu EKG</summary>
@@ -135,15 +152,15 @@
   <tbody>
     <tr>
       <td style="border: 1px solid #ccc; padding: 8px;">Rytm zatokowy</td>
-      <td style="border: 1px solid #ccc; padding: 8px;">Załamki P <p class="gr">II+</p> oraz <p class="re">aVR-</p></td>
+      <td style="border: 1px solid #ccc; padding: 8px;">Załamki P <span class="gr">II+</span> oraz <span class="re">aVR-</span></td>
     </tr>
     <tr>
       <td style="border: 1px solid #ccc; padding: 8px;">Oś serca</td>
       <td style="border: 1px solid #ccc; padding: 8px;">
-        Prawogram: <p class="gr">I+ aVF+</p> lub <p class="gr">I+</p> <p class="re">aVF-</p> <p class="gr">II+</p><br>
-        Lewogram: <p class="gr">I+</p> <p class="re">aVF- II-</p><br>
-        Prawogram: <p class="re">I-</p> <p class="gr">aVF+</p><br>
-        Oś nieokreślona: <p class="re">I- aVF-</p>
+        Prawogram: <span class="gr">I+ aVF+</span> lub <span class="gr">I+</span> <span class="re">aVF-</span> <span class="gr">II+</span><br>
+        Lewogram: <span class="gr">I+</span> <span class="re">aVF- II-</span><br>
+        Prawogram: <span class="re">I-</span> <span class="gr">aVF+</span><br>
+        Oś nieokreślona: <span class="re">I- aVF-</span>
       </td>
     </tr>
     <tr>
@@ -251,10 +268,36 @@
   zgon: `Stwierdzono zgon. Brak czynności życiowych. Brak akcji serca, brak oddechu, źrenice szerokie, nieruchome, brak reakcji na światło.${opisTemp}`
 };
 
+    function getGenderSuffixes(gender) {
+      return gender === 'K' ? {
+        pacjent: 'pacjentka',
+        zgłosil: 'zgłosiła',
+        zgłosil_sie: 'zgłosiła się',
+        letni: 'letnia'
+      } : {
+        pacjent: 'pacjent',
+        zgłosil: 'zgłosił',
+        zgłosil_sie: 'zgłosił się',
+        letni: 'letni'
+      };
+    }
+
     function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
       const output = document.getElementById('chorobaOpis');
-      output.value = opisyChorob[select.value] || '';
+      const wiek = document.getElementById('wiek').value || '00';
+      const gender = document.querySelector('input[name="plec"]:checked').value;
+      const suf = getGenderSuffixes(gender);
+
+      let opis = opisyChorob[select.value] || '';
+
+      opis = opis
+        .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
+        .replace(/pacjentka|pacjent/, suf.pacjent)
+        .replace(/zgłosił się|zgłosiła się/, suf.zgłosil_sie)
+        .replace(/zgłosił|zgłosiła/, suf.zgłosil);
+
+      output.value = opis;
     }
 
     function kopiujOpis() {
@@ -265,7 +308,10 @@
       tempTextArea.select();
       document.execCommand("copy");
       document.body.removeChild(tempTextArea);
-      alert("Skopiowano do schowka!");
+
+      const msg = document.getElementById('copyMsg');
+      msg.style.display = 'inline';
+      setTimeout(() => msg.style.display = 'none', 2000);
     }
   </script>
 </body>
