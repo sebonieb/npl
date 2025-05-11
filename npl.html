@@ -65,17 +65,19 @@
   <details>
     <summary>Zasady opisu EKG</summary>
     <ul>
-      <li><strong>Rytm zatokowy:</strong> Załamki P przed każdym QRS, regularny rytm.</li>
-      <li><strong>Oś serca:</strong> Prawidłowa (0° do +90°), lewa (< 0°), prawa (> +90°).</li>
-      <li><strong>LBBB:</strong> Szeroki QRS > 120 ms, brak załamka Q w I, V5-V6, dodatni T w V1.</li>
-      <li><strong>RBBB:</strong> QRS > 120 ms, rsR' w V1-V3, szerokie S w I, V6.</li>
-      <li><strong>LAH (lewogram przedni):</strong> Lewa oś, qR w I, aVL, rS w II, III, aVF.</li>
-      <li><strong>LPG (lewy przodozwojowy):</strong> Oś serca -45° do -90°, zmiany podobne do LAH.</li>
+      <li><strong>Rytm zatokowy:</strong> Załamki P II(+) oraz aVR(-)</li>
+      <li><strong>Oś serca:</strong> Prawogram: I(+) aVF(+) lub I(+) aVF(-) II(+)<br>Lewogram: I(+) aVF(-) II(-)<br>Prawogram: I(-) aVF(+)<br>Oś nieokreślona: I(-) aVF(-)</li>
+      <li><strong>Blok p-k I stopnia:</strong> Odstęp PQ stale >200ms (5 małych kratek)</li>
+      <li><strong>Blok p-k II stopnia:</strong> Typ I: wydłużający się PQ, aż do wypadnięcia QRS<br>Typ II: stały PQ, okresowo wypada QRS</li>
+      <li><strong>Blok p-k III stopnia:</strong> Zmienny czas PQ, różna morfologia QRS, rytm komór wolniejszy od przedsionków</li>
+      <li><strong>RBBB lub LBBB</strong>QRS &ge; 120ms (3 małe kratki): <a href="https://www.poz1.pl/jednostki/e411bae1-653c-44da-9a13-9588a33a3c4c">LINK</a></li>
+      <li><strong>LAH (Blok przedniej wiązki lewej odnogi pęczka Hisa):</strong> QRS < 120ms; Lewogram</li>
+      <li><strong>LPH (Blok tylnej wiązki lewej odnogi pęczka Hisa):</strong> QRS < 120ms; Prawogram</li>
     </ul>
   </details>
 
   <script>
-    const opisTemp = `\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`; // dodane entery przed i po
+    const opisTemp = `\n\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`; // dodane entery przed i po
 
     const opisBadanie = `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`;
 
