@@ -19,8 +19,9 @@
     }
     textarea {
       height: 400px;
-      font-size: 17px;
+      font-size: 14px; /* zmniejszona czcionka */
       line-height: 1.5;
+      white-space: pre-line; /* zachowuje entery */
     }
     button {
       background-color: #ccc;
@@ -74,24 +75,24 @@
   </details>
 
   <script>
-    const opisTemp = ` Temp. st C, BP / mmHg, RR /min, SpO2 %. `;
+    const opisTemp = `\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`; // dodane entery przed i po
 
     const opisBadanie = `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Goldflama ujemny.`;
 
-    const opisEKG = ` EKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T. `;
+    const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
 
-    const zaleceniaStale = `Zalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
+    const zaleceniaStale = `\nZalecono kontakt z lekarzem w razie pogorszenia lub wystąpienia niepokojących objawów, o których poinformowano pacjenta. Ponadto przekazano informację, że nieprzestrzeganie zaleceń lekarskich może prowadzić do groźnych powikłań, w tym utraty zdrowia, a nawet życia.`;
 
     const opisyChorob = {
-      infekcja: `35-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.${opisTemp}Gardło zaczerwienione, migdałki powiększone.${opisBadanie}${opisEKG}Wydano zalecenia: leczenie objawowe, płyny, preparaty przeciwgorączkowe i przeciwbólowe. ${zaleceniaStale}`,
+      infekcja: `35-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      bol_brzucha: `40-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni.${opisTemp}Bez nudności ani wymiotów, objaw Blumberga ujemny.${opisBadanie}${opisEKG}Wydano zalecenia: dieta lekkostrawna, nawodnienie, obserwacja objawów. ${zaleceniaStale}`,
+      bol_brzucha: `40-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      zapalenie_pecherza: `28-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki.${opisTemp}Bez bólu w okolicy lędźwiowej.${opisBadanie}${opisEKG}Wydano zalecenia: nawodnienie, preparaty przeciwbakteryjne na bazie furaginy. ${zaleceniaStale}`,
+      zapalenie_pecherza: `28-letnia pacjentka zgłosiła się do NPL z powodu pieczenia przy mikcji. W wywiadzie częstomocz, brak gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      zapalenie_oskrzeli: `52-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona.${opisTemp}W badaniu: furczenia i świsty nad oskrzelami.${opisBadanie}${opisEKG}Wydano zalecenia: leki rozrzedzające wydzielinę, leki przeciwkaszlowe, inhalacje. ${zaleceniaStale}`,
+      zapalenie_oskrzeli: `52-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`,
 
-      zatrucie_pokarmowe: `30-letni pacjent zgłosił się do NPL z powodu biegunki i nudności. W wywiadzie bóle brzucha o charakterze skurczowym, bez gorączki.${opisTemp}${opisBadanie}${opisEKG}Wydano zalecenia: nawadnianie doustne, dieta lekkostrawna. ${zaleceniaStale}`
+      zatrucie_pokarmowe: `30-letni pacjent zgłosił się do NPL z powodu biegunki i nudności. W wywiadzie bóle brzucha o charakterze skurczowym, bez gorączki.${opisTemp}${opisBadanie}${opisEKG}${zaleceniaStale}`
     };
 
     function wstawOpisChoroby() {
