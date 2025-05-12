@@ -91,6 +91,7 @@
   <optgroup label="❤️ Układ sercowo-naczyniowy">
     <option value="bol_klatki">Ból w klatce piersiowej</option>
     <option value="nadcisnienie">Nadciśnienie tętnicze</option>
+    <option value="niewydolnosc_serca">Niewydolność serca</option>
     <option value="obrzek_nog">Obrzęk nóg</option>
   </optgroup>
 
@@ -245,6 +246,10 @@
       kolka_nerkowa: `Tkliwość w okolicy lędźwiowej, brak objawów otrzewnowych, objaw Goldflama dodatni po stronie prawej.`,
       polpasiec: `W obrębie dermatomu Th12 wysypka grudkowo-pęcherzykowa na rumieniowym podłożu. Skóra na pozostałych częściach ciała czysta, bez nowych zmian. Objawy oponowe ujemne.`,
       zapalenie_nerek: `Badanie okolicy lędźwiowej: dodatni objaw Goldflama po stronie lewej, tkliwość palpacyjna.`,
+      zapalenie_oskrzeli: `Płuca - pojedyncze świsty i furczenia nad całymi płucami, opukowo nad polami płucnymi odgłos jawny. Gardło nieznacznie przekrwione, migdałki schowane za łukami podniebiennymi, bez widocznej treści ropnej. Objawy oponowe ujemne.`,
+      zapalenie_pluc: `Płuca – po stronie prawej szmer pęcherzykowy osłabiony, w rzucie płata dolnego liczne trzeszczenia, po stronie lewej szmer pęcherzykowy prawidłowy. Opukowo nad płatem dolnym odgłos opukowy stłumiony, nad pozostałą częścią płuca odgłos opukowy jawny. Gardło nieznacznie przekrwione, migdałki schowane za łukami podniebiennymi, bez widocznej treści ropnej. Węzły chłonne szyjne wyczuwalne w badaniu palpacyjnym. Objawy oponowe ujemne.`,
+      bol_gardla: `Gardło – zaczerwienione, migdałki rozpulchnione, bez nalotu. Węzły chłonne szyjne i podżuchwowe powiększone do 5-10 mm, tkliwe podczas palpacji oraz przesuwalne względem podłoża.`,
+      niewydolnosc_serca: `Płuca – szmer pęcherzykowy symetryczny obustronnie nad górną i środkową częścią, w dolnych partiach płuc pojedyncze trzeszczenia. Obrzęki ciastowate do połowy obu podudzi.`,
       hiperglikemia: `Glikemia oznaczona glukometrem: XX mg/dl.`,
       wymioty: `Glikemia oznaczona glukometrem: XX mg/dl.`,
       zawroty_glowy: `Glikemia oznaczona glukometrem: XX mg/dl.`,
@@ -253,6 +258,8 @@
     };
     const opisyChorob = {
   astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie świszczący oddech, suchy kaszel, znana astma oskrzelowa.`,
+
+  niewydolnosc_serca: `00-letni pacjent zgłosił się do NPL z powodu występującej od dłuższego czasu pogorszonej tolerancji wysiłku oraz obrzęków kończyn dolnych. Choruje od 10 lat na nadciśnienie tętnicze. Choroby płuc oraz inne dolegliwości neguje. Nie występują u niego objawy infekcyjne.`,
 
   bol_gardla: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła nasilającego się przy przełykaniu. W wywiadzie stany podgorączkowe, kaszel.`,
 
@@ -272,7 +279,7 @@
 
   zawroty_glowy: `00-letni pacjent zgłosił się do NPL z powodu zawrotów głowy. W wywiadzie brak zaburzeń mowy, widzenia, niedowładów.`,
 
-  bol_kregoslupa: `00-letni pacjent zgłosił się do NPL z powodu bólu kręgosłupa lędźwiowego. W wywiadzie ból nasila się przy ruchu.`,
+  bol_kregoslupa: `00-letni pacjent zgłosił się do NPL z powodu trwającego od 2 dni bólu w odc. LS kręgosłupa bez towarzyszącego promieniowania do kończyn dolnych. Uraz neguje. Nie gorączkuje. Mikcja i wypróżnienia są prawidłowe. Zaburzenia czucia, występowanie bólu w nocy oraz utratę masy ciała pacjent neguje. Leczenie immunosupresyjne oraz cukrzycę neguje. Wywiad w kierunku chorób nowotworowych ujemny. Inne dolegliwości, w tym alarmowe, pacjent neguje.`,
 
   bol_szyi: `00-letni pacjent zgłosił się do NPL z powodu bólu karku. W wywiadzie napięcie mięśni szyi, ograniczona ruchomość.`,
 
@@ -280,9 +287,9 @@
 
   zapalenie_oka: `00-letni pacjent zgłosił się do NPL z powodu zaczerwienienia i łzawienia oka. W wywiadzie brak urazu.`,
 
-  biegunka: `00-letni pacjent zgłosił się do NPL z powodu biegunki. W wywiadzie kilka luźnych stolców na dobę, brak gorączki.`,
+  biegunka: `00-letni pacjent zgłosił się do NPL z powodu trwającego od 2 dni bólu brzucha, utrzymujących się wymiotów treścią pokarmową – 2x/dobę, biegunki – ok 6x/dobę – bez domieszki krwi i śluzu oraz stanu podgorączkowego 37,0°C. `,
 
-  bol_brzucha: `00-letni pacjent zgłosił się do NPL z powodu bólu brzucha. W wywiadzie ból w nadbrzuszu od 2 dni.`,
+  bol_brzucha: `00-letni pacjent zgłosił się do NPL z powodu trwającego od 2 tygodni bólu/uczucia dyskomfortu w nadbrzuszu, występującego najczęściej po spożyciu pokarmu, albo wcześnie rano. Ból nie wybudza pacjenta ze snu. Mężczyzna nie wymiotuje, oddaje prawidłowe stolce. Neguje niezamierzony spadek masy ciała w ostatnich 3 miesiącach. Krwi na papierze toaletowym nie zauważa`,
 
   dna_moczanowa: `00-letni pacjent zgłosił się do NPL z powodu bólu i obrzęku stawu śródstopno-paliczkowego. W wywiadzie znana hiperurykemia.`,
 
