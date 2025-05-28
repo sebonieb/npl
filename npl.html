@@ -80,12 +80,9 @@
   <option value="">-- wybierz --</option>
 
   <optgroup label="🫁 Układ oddechowy">
-    <option value="astma">Astma</option>
-    <option value="bol_gardla">Ból gardła</option>
     <option value="infekcja">Infekcja dróg oddechowych</option>
+    <option value="astma">Astma</option>
     <option value="pochp">POChP</option>
-    <option value="zapalenie_oskrzeli">Zapalenie oskrzeli</option>
-    <option value="zapalenie_pluc">Zapalenie płuc</option>
   </optgroup>
 
   <optgroup label="❤️ Układ sercowo-naczyniowy">
@@ -230,10 +227,10 @@
 </table>
   </details>
     <script>
-    const opisTemp = `\n\nTemp. st C, BP / mmHg, RR /min, SpO2 %.\n`;
+    const opisTemp = `\n\nTemp. st C, BP / mmHg, HR /min, SpO2 %.\n`;
     const opisBadanieBase = {
-      M: `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny.`,
-      K: `Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny.`
+      M: `Stan ogólny dobry, pacjent wydolny krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny. Węzły chłonne szyjne niewyczuwalne w badaniu palpacyjnym.`,
+      K: `Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi. Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny. Węzły chłonne szyjne niewyczuwalne w badaniu palpacyjnym.`
     };
     const opisNeurologiczne = `Źrenice równe, symetryczne, prawidłowo reagujące na światło, bez oczopląsu. Ruchy gałek ocznych zachowane w płaszczyźnie poziomej i pionowej. Czucie w obrębie twarzy zachowane, ruchy języka zachowane, mimika symetryczna. Ruchy głowy i ramion zachowane. Ruchy języka zachowane. Siła mięśniowa L=P. Próba palec nos ujemna. Próba Romberga ujemna. Brak objawów oponowych.`;
     const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
@@ -257,19 +254,13 @@
       nadcisnienie: `Glikemia oznaczona glukometrem: XX mg/dl.`,
     };
     const opisyChorob = {
-  astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie świszczący oddech, suchy kaszel, znana astma oskrzelowa.`,
+  astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie astma oskrzelowa od X lat. Pajent zgłasza duszność spoczynkowa/wysiłkowa, świszczący oddech, kaszel suchy/mokry/kolor plwociny, uczucie ucisku w klatce piersiowej, bez zaburzeń świadomości, omdleń. Pacjent nie może/może mówić całymi zdaniami. Regularnie stosuje leki na astmę. Nie przyjmował/przyjmował dodatkową dawkę leku - salbutamolu. Dotychczas bez zaostrzeń/z zaostrzeniem x miesięcy temu.`,
 
   niewydolnosc_serca: `00-letni pacjent zgłosił się do NPL z powodu występującej od dłuższego czasu pogorszonej tolerancji wysiłku oraz obrzęków kończyn dolnych. Choruje od 10 lat na nadciśnienie tętnicze. Choroby płuc oraz inne dolegliwości neguje. Nie występują u niego objawy infekcyjne.`,
 
-  bol_gardla: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła nasilającego się przy przełykaniu. W wywiadzie stany podgorączkowe, kaszel.`,
-
-  infekcja: `00-letni pacjent zgłosił się do NPL z powodu bólu gardła i objawów infekcji górnych dróg oddechowych. W wywiadzie katar, kaszel od 3 dni, bez duszności.`,
+  infekcja: `00-letni pacjent zgłosił się do NPL z powodu objawów infekcji dróg oddechowych od X dni. Pacjent zgłasza dreszcze, poty, bóle mięśni, duszność/szybki oddech/świsty przy oddychaniu, ból w okolicy łuków żebrowych, ogólne osłabienie, ból gardła, kaszel suchy/mokry/odkrztusza zieloną wydzielinę, katar. Chory mierzył temperaturę ciała - st C/nie mierzył temperatury ciała. `,
 
   pochp: `00-letni pacjent zgłosił się do NPL z powodu duszności i nasilonego kaszlu. W wywiadzie POChP, świsty osłuchowo.`,
-
-  zapalenie_oskrzeli: `00-letni pacjent zgłosił się do NPL z powodu kaszlu. W wywiadzie kaszel mokry od kilku dni, świsty osłuchowo, bez duszności w spoczynku. Temperatura podwyższona.`,
-
-  zapalenie_pluc: `00-letni pacjent zgłosił się do NPL z powodu kaszlu i gorączki. W wywiadzie dreszcze, osłabienie, kaszel produktywny.`,
 
   bol_klatki: `00-letni pacjent zgłosił się do NPL z powodu bólu w klatce piersiowej. W wywiadzie ból niezwiązany z wysiłkiem, nasilający się przy głębokim wdechu.`,
 
