@@ -235,7 +235,12 @@
     const opisNeurologiczne = `Źrenice równe, symetryczne, prawidłowo reagujące na światło, bez oczopląsu. Ruchy gałek ocznych zachowane w płaszczyźnie poziomej i pionowej. Czucie w obrębie twarzy zachowane, ruchy języka zachowane, mimika symetryczna. Ruchy głowy i ramion zachowane. Ruchy języka zachowane. Siła mięśniowa L=P. Próba palec nos ujemna. Próba Romberga ujemna. Brak objawów oponowych.`;
     const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
     const zaleceniaStale = `Ambulatoryjnie podano: xxxx\n\nZalecenia:\nxxxx\nW badaniu nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wystąpienia objawów alarmowych (np. nasilający się ból, gorączka, trudności w oddychaniu, wymioty, zaburzenia świadomości) o których poinformowano pacjenta. Ponadto przekazano informację o ryzyku związanym z nieprzestrzeganiem zaleceń lekarskich.`;
+    const zaleceniaSpecyficzne = {
+      astma: `Ambulatoryjnie podano: xxxx\n\nZalecenia:\nxxxx\nW badaniu nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i w przypadku ciężkiego zaostrzenia (duszności w spoczynku, mówienia pojedynczymi słowami, konieczności przyjmowania przygarbionej pozycji ciała bądź towarzyszącego uczucia senności) wezwanie zespołu ratownictwa medycznego lub pilny kontakt z lekarzem. W razie braku poprawy stanu zdrowia zalecono wizytę u lekarza POZ. Ponadto przekazano informację o ryzyku związanym z nieprzestrzeganiem zaleceń lekarskich.`,
+      infekcja: `Ambulatoryjnie podano: xxxx\n\nZalecenia:\nxxxx\nW badaniu nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i w razie pogorszenia się dolegliwości, w szczególności w przypadku wystąpienia wysokiej gorączki utrzymującej się po 3 dniach od rozpoczęcia leczenia, trudności w oddychaniu, silnego kaszlu utrudniającego oddychanie, zwiększenia nasilenia duszności lub braku poprawy w przeciągu 3 dni od wdrożenia terapii zalecono wizytę u lekarza POZ. W przypadku wystąpienia objawów alarmowych (np. silne duszności, zawroty głowy, trudności w mówieniu, zaburzenia świadomości) o których poinformowano pacjenta zalecono pilny kontakt z lekarzem lub wezwanie zespołu ratownictwa medycznego. Ponadto przekazano informację o ryzyku związanym z nieprzestrzeganiem zaleceń lekarskich.`,
+    };
     const badaniaSpecyficzne = {
+      infekcja: `Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Pojedyncze świsty i furczenia nad całymi płucami. Szmer pęcherzykowy po stronie prawej/lewej szmer osłabiony, w rzucie płata dolnego liczne trzeszczenia. Po stronie lewej/prawej szmer pęcherzykowy prawidłowy. Gardło nieznacznie przekrwione, migdałki schowane za łukami podniebiennymi, bez widocznej treści ropnej. Węzły chłonne szyjne wyczuwalne w badaniu palpacyjnym. Objawy oponowe ujemne.`,
       rwa_kulszowa: `Objaw Lasegue’a dodatni po stronie XXXX, ograniczenie odwiedzenia kończyny, zachowana siła mięśniowa.`,
       bol_kregoslupa: `Objaw Lasegue’a obutronnie ujemny, czucie i siła w kończynach dolnych prawidłowe.`,
       obrzek_nog: `Węzły chłonne pachwinowe niewyczuwalne palpacyjnie. Obrzęki ciastowate sięgające do połowy obu podudzi. Brak odchyleń w zakresie barwy oraz ucieplenia kończyn. Żyły powierzchowne niewidoczne. Obwód podudzi symetryczny. Fala tętna wyczuwalna na obu tętnicach grzbietowych stopy. Objaw Homansa dodatni po stronie lewej.`,
@@ -260,7 +265,7 @@
 
   infekcja: `00-letni pacjent zgłosił się do NPL z powodu objawów infekcji dróg oddechowych od X dni. Pacjent zgłasza dreszcze, poty, bóle mięśni, duszność/szybki oddech/świsty przy oddychaniu, ból w okolicy łuków żebrowych, ogólne osłabienie, ból gardła, kaszel suchy/mokry/odkrztusza zieloną wydzielinę, katar. Chory mierzył temperaturę ciała - st C/nie mierzył temperatury ciała. `,
 
-  pochp: `00-letni pacjent zgłosił się do NPL z powodu duszności i nasilonego kaszlu. W wywiadzie POChP, świsty osłuchowo.`,
+  pochp: `00-letni pacjent zgłosił się do NPL z powodu duszności i nasilonego kaszlu. W wywiadzie POChP, przewlekły nikotynizm. Nie gorączkuje, neguje objawy infekcji (katar, ból gardła).`,
 
   bol_klatki: `00-letni pacjent zgłosił się do NPL z powodu bólu w klatce piersiowej. W wywiadzie ból niezwiązany z wysiłkiem, nasilający się przy głębokim wdechu.`,
 
@@ -350,12 +355,10 @@ function getGenderSuffixes(gender) {
     
       let opis = opisyChorob[select.value] || '';
     
-      // Dodatek końcowy jeśli brakuje
       if (!opis.endsWith(dopisekKoncowy)) {
         opis += dopisekKoncowy;
       }
     
-      // Wiekowy wstęp pediatryczny
       if (wiek < 18 && wiek > 0) {
         const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
         const opiekun = 'Matka/Ojciec';
@@ -368,17 +371,14 @@ function getGenderSuffixes(gender) {
           .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
       }
     
-      // Składanie tekstu
       let pelnyOpis = `${opis}${opisTemp}`;
-      
-      // Jeśli jest wpis w badaniaSpecyficzne, użyj tylko jego zamiast badaniaBase
+    
       if (badaniaSpecyficzne.hasOwnProperty(select.value)) {
         pelnyOpis += `\n${badaniaSpecyficzne[select.value]}`;
       } else {
         pelnyOpis += opisBadanieBase[gender];
       }
     
-      // Neurologiczne jeśli jednostka na liście
       if ([
         'rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy',
         'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz',
@@ -387,7 +387,14 @@ function getGenderSuffixes(gender) {
         pelnyOpis += `\n${opisNeurologiczne}`;
       }
     
-      pelnyOpis += `${opisEKG}${zaleceniaStale}`;
+      pelnyOpis += `${opisEKG}`;
+    
+      if (zaleceniaSpecyficzne.hasOwnProperty(select.value)) {
+        pelnyOpis += `\n${zaleceniaSpecyficzne[select.value]}`;
+      } else {
+        pelnyOpis += `${zaleceniaStale}`;
+      }
+    
       output.value = pelnyOpis;
     }
 
