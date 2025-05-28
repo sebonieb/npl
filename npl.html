@@ -362,8 +362,8 @@ function getGenderSuffixes(gender) {
     
       if (wiek < 18 && wiek > 0) {
         const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
-        const opiekun = 'Matka/Ojciec';
-        const wstep = `${opiekun} z ${wiek}-letnim ${dziecko} zgłosił/a się do NPL`;
+        const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
+        const wstep = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL`;
         opis = opis.replace(/00-letni pacjent zgłosił się|00-letnia pacjentka zgłosiła się/g, wstep);
       } else {
         opis = opis
