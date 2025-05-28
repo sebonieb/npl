@@ -344,27 +344,50 @@ function getGenderSuffixes(gender) {
     function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
       const output = document.getElementById('chorobaOpis');
-      const wiek = document.getElementById('wiek').value || '00';
+      const wiek = parseInt(document.getElementById('wiek').value) || 0;
       const gender = document.querySelector('input[name="plec"]:checked').value;
       const suf = getGenderSuffixes(gender);
-
+    
       let opis = opisyChorob[select.value] || '';
-        if (!opis.endsWith(dopisekKoncowy)) {
-          opis += dopisekKoncowy;
-        }
-      opis = opis
-        .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
-        .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
-        .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
-
-      let pelnyOpis = `${opis}${opisTemp}${opisBadanieBase[gender]}`;
-        if (badaniaSpecyficzne.hasOwnProperty(select.value)) {
-          pelnyOpis += `\n${badaniaSpecyficzne[select.value]}`;
-        }
-        if (['rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy', 'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz', 'ugryzienie_kot', 'ugryzienie_owad', 'ugryzienie_pies'].includes(select.value)) {
-          pelnyOpis += `\n${opisNeurologiczne}`;
-        }
-        pelnyOpis += `${opisEKG}${zaleceniaStale}`;
+    
+      // Dodatek końcowy jeśli brakuje
+      if (!opis.endsWith(dopisekKoncowy)) {
+        opis += dopisekKoncowy;
+      }
+    
+      // Wiekowy wstęp pediatryczny
+      if (wiek < 18 && wiek > 0) {
+        const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
+        const opiekun = 'Matka/Ojciec';
+        const wstep = `${opiekun} z ${wiek}-letnim ${dziecko} zgłosił/a się do NPL`;
+        opis = opis.replace(/00-letni pacjent zgłosił się|00-letnia pacjentka zgłosiła się/g, wstep);
+      } else {
+        opis = opis
+          .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
+          .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
+          .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
+      }
+    
+      // Składanie tekstu
+      let pelnyOpis = `${opis}${opisTemp}`;
+      
+      // Jeśli jest wpis w badaniaSpecyficzne, użyj tylko jego zamiast badaniaBase
+      if (badaniaSpecyficzne.hasOwnProperty(select.value)) {
+        pelnyOpis += `\n${badaniaSpecyficzne[select.value]}`;
+      } else {
+        pelnyOpis += opisBadanieBase[gender];
+      }
+    
+      // Neurologiczne jeśli jednostka na liście
+      if ([
+        'rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy',
+        'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz',
+        'ugryzienie_kot', 'ugryzienie_owad', 'ugryzienie_pies'
+      ].includes(select.value)) {
+        pelnyOpis += `\n${opisNeurologiczne}`;
+      }
+    
+      pelnyOpis += `${opisEKG}${zaleceniaStale}`;
       output.value = pelnyOpis;
     }
 
