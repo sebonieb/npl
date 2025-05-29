@@ -347,7 +347,7 @@ function getGenderSuffixes(gender) {
       };
     }
     const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
-    function wstawOpisChoroby() {
+   function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
       const output = document.getElementById('chorobaOpis');
       const wiek = parseInt(document.getElementById('wiek').value) || 0;
@@ -356,14 +356,16 @@ function getGenderSuffixes(gender) {
     
       let opis = opisyChorob[select.value] || '';
     
+      // Dopisek końcowy jeśli brak
       if (!opis.endsWith(dopisekKoncowy)) {
         opis += dopisekKoncowy;
       }
     
+      // Wstęp pediatryczny dla <18, + słowo "dziecko" dla <16
       if (wiek < 18 && wiek > 0) {
         const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
         const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
-        const wstep = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL`;
+        const wstep = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się`;
         opis = opis.replace(/00-letni pacjent zgłosił się|00-letnia pacjentka zgłosiła się/g, wstep);
       } else {
         opis = opis
@@ -372,30 +374,44 @@ function getGenderSuffixes(gender) {
           .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
       }
     
-      let pelnyOpis = `${opis}${opisTemp}`;
-    
+      // 🔄 PRZEDMIOTOWE — wybór: specyficzne badanie LUB domyślne
+      let badanieOpis = '';
       if (badaniaSpecyficzne.hasOwnProperty(select.value)) {
-        pelnyOpis += `\n${badaniaSpecyficzne[select.value]}`;
+        badanieOpis = badaniaSpecyficzne[select.value];
+        // Dynamiczna zamiana końcówek
+        if (wiek < 16) {
+          badanieOpis = badanieOpis
+            .replace(/\b(pacjentka|pacjent)\b/g, 'dziecko')
+            .replace(/zgłosił się|zgłosiła się/g, 'zgłosił/a się');
+        } else {
+          badanieOpis = badanieOpis
+            .replace(/\b(pacjentka|pacjent)\b/g, suf.pacjent)
+            .replace(/zgłosił się|zgłosiła się/g, suf.zgłosil_sie);
+        }
       } else {
-        pelnyOpis += opisBadanieBase[gender];
+        badanieOpis = opisBadanieBase[gender];
       }
     
+      // 🔄 NEUROLOGICZNY (dodatek)
+      let opisNeurolog = '';
       if ([
         'rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy',
-        'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz',
-        'ugryzienie_kot', 'ugryzienie_owad', 'ugryzienie_pies'
+        'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz', 'ugryzienie_kot',
+        'ugryzienie_owad', 'ugryzienie_pies'
       ].includes(select.value)) {
-        pelnyOpis += `\n${opisNeurologiczne}`;
+        opisNeurolog = `\n${opisNeurologiczne}`;
       }
     
-      pelnyOpis += `${opisEKG}`;
-    
+      // 🔄 ZALECENIA
+      let zalecenia = '';
       if (zaleceniaSpecyficzne.hasOwnProperty(select.value)) {
-        pelnyOpis += `\n${zaleceniaSpecyficzne[select.value]}`;
+        zalecenia = `\n${zaleceniaSpecyficzne[select.value]}`;
       } else {
-        pelnyOpis += `${zaleceniaStale}`;
+        zalecenia = zaleceniaStale;
       }
     
+      // 🔧 Ostateczny opis
+      const pelnyOpis = `${opis}${opisTemp}${badanieOpis}${opisNeurolog}${opisEKG}${zalecenia}`;
       output.value = pelnyOpis;
     }
 
