@@ -78,7 +78,8 @@
 
   <select id="chorobaSelect" onchange="wstawOpisChoroby()">
   <option value="">-- wybierz --</option>
-
+    
+    <option value="standard">Standard</option>
   <optgroup label="🫁 Układ oddechowy">
     <option value="infekcja">Infekcja dróg oddechowych</option>
     <option value="astma">Astma</option>
@@ -260,6 +261,8 @@
       nadcisnienie: `Glikemia oznaczona glukometrem: XX mg/dl.`,
     };
     const opisyChorob = {
+  standard: `00-letni pacjent zgłosił się do NPL z powodu zaczerwienienia i łzawienia oka. W wywiadzie brak urazu.`,
+      
   astma: `00-letni pacjent zgłosił się do NPL z powodu napadu duszności. W wywiadzie astma oskrzelowa od X lat. Pajent zgłasza duszność spoczynkowa/wysiłkowa, świszczący oddech, kaszel suchy/mokry/kolor plwociny, uczucie ucisku w klatce piersiowej, bez zaburzeń świadomości, omdleń. Pacjent nie może/może mówić całymi zdaniami. Regularnie stosuje leki na astmę. Nie przyjmował/przyjmował dodatkową dawkę leku - salbutamolu. Dotychczas bez zaostrzeń/z zaostrzeniem x miesięcy temu.`,
 
   niewydolnosc_serca: `00-letni pacjent zgłosił się do NPL z powodu występującej od dłuższego czasu pogorszonej tolerancji wysiłku oraz obrzęków kończyn dolnych. Choruje od 10 lat na nadciśnienie tętnicze. Choroby płuc oraz inne dolegliwości neguje. Nie występują u niego objawy infekcyjne.`,
