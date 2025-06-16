@@ -167,6 +167,15 @@
   <label><input type="checkbox" name="objInf" value="katar"> Katar</label><br>
   <label>Temperatura (°C): <input type="number" id="tempInf" style="width:60px;"></label><br>
 </div>
+
+  <div id="astmaObjawy" style="display:none; padding: 10px; background:#eef; margin-top: 10px;">
+  <strong>Objawy astmy:</strong><br>
+  <label><input type="checkbox" name="objastma" value="napad" data-label="napad duszności"> Napad duszności</label><br>
+  <label><input type="checkbox" name="objastma" value="gwizdy" data-label="świszczący oddech"> Świsty</label><br>
+  <label><input type="checkbox" name="objastma" value="suchy_kaszel" data-label="kaszel suchy"> Kaszel suchy</label><br>
+  <label>Temperatura (°C): <input type="number" id="tempastma" style="width:60px;"></label><br>
+</div>
+  
    <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
   <div class="button-row">
@@ -293,7 +302,7 @@
 
   niewydolnosc_serca: `00-letni pacjent zgłosił się do NPL z powodu występującej od dłuższego czasu pogorszonej tolerancji wysiłku oraz obrzęków kończyn dolnych. Choruje od 10 lat na nadciśnienie tętnicze. Choroby płuc oraz inne dolegliwości neguje. Nie występują u niego objawy infekcyjne.`,
 
-  infekcja: `00-letni pacjent zgłosił się do NPL z powodu objawów infekcji dróg oddechowych od X dni. Pacjent zgłasza dreszcze, poty, bóle mięśni, duszność/szybki oddech/świsty przy oddychaniu, ból w okolicy łuków żebrowych, ogólne osłabienie, ból gardła, kaszel suchy/mokry/odkrztusza zieloną wydzielinę, katar. Chory mierzył temperaturę ciała - st C/nie mierzył temperatury ciała. `,
+  infekcja: `00-letni pacjent zgłosił się do NPL z powodu objawów infekcji od X dni. Pacjent zgłasza dreszcze, poty, bóle mięśni, duszność/szybki oddech/świsty przy oddychaniu, ból w okolicy łuków żebrowych, ogólne osłabienie, ból gardła, kaszel suchy/mokry/odkrztusza zieloną wydzielinę, katar. Chory mierzył temperaturę ciała - st C/nie mierzył temperatury ciała. `,
 
   pochp: `00-letni pacjent zgłosił się do NPL z powodu duszności i nasilonego kaszlu. W wywiadzie POChP od X lat, przewlekły nikotynizm. Pacjent zgłasza nasilenie duszności przy mówieniu/w spoczynku/przy minimalnym wysiłku, kaszel suchy/mokry/odkrztusza więcej przezroczystej/zielonej wydzieliny/, objawy infekcji - ból gardła, katar, wysoką temperaturę ciała - st C/nie mierzył temperatury ciała. Nie zgłasza zaburzeń świadomości, bólów w klatce piersiowej ani obrzęków obwodowych. Nie korzysta z domowej tlenoterapii. Dotychczas bez zaostrzeń/X zaostrzeń, bez hospitalizacji. Podaje regularne/nieregularne przyjmowanie leków`,
 
@@ -378,69 +387,52 @@ function getGenderSuffixes(gender) {
     const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
 function wstawOpisChoroby() {
   const select = document.getElementById('chorobaSelect');
+  const choroba = select.value;
   const output = document.getElementById('chorobaOpis');
   const wiek = parseInt(document.getElementById('wiek').value) || 0;
   const gender = document.querySelector('input[name="plec"]:checked').value;
   const suf = getGenderSuffixes(gender);
-  const choroba = select.value;
-
   const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
 
-  // Pokaż checkboxy tylko przy infekcji
-  document.getElementById('infekcjaObjawy').style.display = (choroba === 'infekcja') ? 'block' : 'none';
+  // Ukryj wszystkie sekcje objawów
+  document.querySelectorAll('div[id$="Objawy"]').forEach(div => div.style.display = 'none');
 
+  // Jeśli istnieje blok objawów dla tej choroby – pokaż i generuj z checkboxów
+  const objawyDiv = document.getElementById(`${choroba}Objawy`);
   let opis = '';
+  if (objawyDiv) {
+    objawyDiv.style.display = 'block';
 
-  // ✅ PRZYPADEK: infekcja (ma checkboxy → generujemy opis podmiotowy dynamicznie)
-  if (choroba === 'infekcja') {
-    const objawy = [...document.querySelectorAll('input[name="objInf"]:checked')].map(x => x.value);
-    const temp = document.getElementById('tempInf').value;
+    // wywiad z checkboxów
+    const objawy = [...document.querySelectorAll(`input[name="obj${choroba}"]:checked`)]
+      .map(x => x.dataset.label);
 
-    const objawyMap = {
-      dreszcze: 'dreszcze i nocne poty',
-      bole_miesni: 'bóle mięśni',
-      duszność: 'duszność spoczynkowa lub wysiłkowa',
-      swisty: 'świsty przy oddychaniu',
-      bol_lukow: 'ból w okolicy łuków żebrowych',
-      oslabienie: 'ogólne osłabienie',
-      bol_gardla: 'ból gardła',
-      kaszel_suchy: 'kaszel suchy',
-      kaszel_mokry: 'kaszel mokry',
-      wydzielina_biala: 'przezroczysta lub biała wydzielina',
-      wydzielina_zolta: 'żółta wydzielina',
-      wydzielina_zielona: 'zielona wydzielina',
-      katar: 'katar'
-    };
+    const tempField = document.getElementById(`temp${choroba}`);
+    const temp = tempField ? tempField.value : '';
 
-    const opisy = objawy.map(x => objawyMap[x]);
-
-    // ✍️ Wywiad z checkboxów
+    // nagłówek
     if (wiek < 18 && wiek > 0) {
       const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
       const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
-      opis = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL z powodu objawów infekcji dróg oddechowych. `;
+      opis = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL z powodu objawów ${choroba.replace('_', ' ')}. `;
     } else {
-      opis = `${wiek}-${suf.letni} ${suf.pacjent} ${suf.zglosil_sie} do NPL z powodu objawów infekcji dróg oddechowych. `;
+      opis = `${wiek}-${suf.letni} ${suf.pacjent} ${suf.zglosil_sie} do NPL z powodu objawów ${choroba.replace('_', ' ')}. `;
     }
 
-    if (opisy.length > 0) {
-      opis += `${suf.pacjent.charAt(0).toUpperCase() + suf.pacjent.slice(1)} zgłasza: ${opisy.join(', ')}. `;
+    if (objawy.length) {
+      opis += `${suf.pacjent.charAt(0).toUpperCase() + suf.pacjent.slice(1)} zgłasza: ${objawy.join(', ')}. `;
     }
 
     if (temp) {
       opis += `Temperatura ciała w domu: ${temp}°C. `;
     }
 
-    // dopisek końcowy do wywiadu
     opis += dopisekKoncowy;
   } else {
-    // ✅ INNE jednostki → klasyczny opis z szablonu
+    // klasyczny szablon
     opis = opisyChorob[choroba] || '';
-    if (!opis.endsWith(dopisekKoncowy)) {
-      opis += dopisekKoncowy;
-    }
+    if (!opis.endsWith(dopisekKoncowy)) opis += dopisekKoncowy;
 
-    // pediatryczny wstęp
     if (wiek < 18 && wiek > 0) {
       const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
       const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
@@ -454,24 +446,19 @@ function wstawOpisChoroby() {
     }
   }
 
-  // ✅ Badanie przedmiotowe
-  let badanieOpis = '';
-  if (badaniaSpecyficzne.hasOwnProperty(choroba)) {
-    badanieOpis = badaniaSpecyficzne[choroba];
-    if (wiek < 16) {
-      badanieOpis = badanieOpis
-        .replace(/\b(pacjentka|pacjent)\b/g, 'dziecko')
-        .replace(/zgłosił się|zgłosiła się/g, 'zgłosił/a się');
-    } else {
-      badanieOpis = badanieOpis
-        .replace(/\b(pacjentka|pacjent)\b/g, suf.pacjent)
-        .replace(/zgłosił się|zgłosiła się/g, suf.zglosil_sie);
-    }
+  // Reszta — badanie, EKG, zalecenia (zostają bez zmian)
+  let badanieOpis = badaniaSpecyficzne[choroba] || opisBadanieBase[gender];
+
+  if (wiek < 16) {
+    badanieOpis = badanieOpis
+      .replace(/\b(pacjentka|pacjent)\b/g, 'dziecko')
+      .replace(/zgłosił się|zgłosiła się/g, 'zgłosił/a się');
   } else {
-    badanieOpis = opisBadanieBase[gender];
+    badanieOpis = badanieOpis
+      .replace(/\b(pacjentka|pacjent)\b/g, suf.pacjent)
+      .replace(/zgłosił się|zgłosiła się/g, suf.zglosil_sie);
   }
 
-  // ✅ Dodatkowo: neurologiczne
   let opisNeurolog = '';
   if ([
     'rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy',
@@ -481,22 +468,15 @@ function wstawOpisChoroby() {
     opisNeurolog = `\n${opisNeurologiczne}`;
   }
 
-  // ✅ EKG
   const opisTemp = `\n\nTemp. st C, BP / mmHg, HR /min, SpO2 %.\n`;
   const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
 
-  // ✅ Zalecenia
-  let zalecenia = '';
-  if (zaleceniaSpecyficzne.hasOwnProperty(choroba)) {
-    zalecenia = `\n${zaleceniaSpecyficzne[choroba]}`;
-  } else {
-    zalecenia = zaleceniaStale;
-  }
+  let zalecenia = zaleceniaSpecyficzne[choroba] || zaleceniaStale;
 
-  // ✅ Końcowy opis
   const pelnyOpis = `${opis}${opisTemp}${badanieOpis}${opisNeurolog}${opisEKG}${zalecenia}`;
   output.value = pelnyOpis;
 }
+
 
 
     function kopiujOpis() {
