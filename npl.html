@@ -384,12 +384,15 @@ function wstawOpisChoroby() {
   const suf = getGenderSuffixes(gender);
   const choroba = select.value;
 
-  // Pokazuj checkboxy tylko przy infekcji
+  const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
+
+  // Pokaż checkboxy tylko przy infekcji
   document.getElementById('infekcjaObjawy').style.display = (choroba === 'infekcja') ? 'block' : 'none';
 
   let opis = '';
+
+  // ✅ PRZYPADEK: infekcja (ma checkboxy → generujemy opis podmiotowy dynamicznie)
   if (choroba === 'infekcja') {
-    // OPIS WYWIADU – tylko z checkboxów
     const objawy = [...document.querySelectorAll('input[name="objInf"]:checked')].map(x => x.value);
     const temp = document.getElementById('tempInf').value;
 
@@ -411,7 +414,7 @@ function wstawOpisChoroby() {
 
     const opisy = objawy.map(x => objawyMap[x]);
 
-    // Początek opisu zależny od wieku
+    // ✍️ Wywiad z checkboxów
     if (wiek < 18 && wiek > 0) {
       const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
       const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
@@ -427,13 +430,74 @@ function wstawOpisChoroby() {
     if (temp) {
       opis += `Temperatura ciała w domu: ${temp}°C. `;
     }
+
+    // dopisek końcowy do wywiadu
+    opis += dopisekKoncowy;
+  } else {
+    // ✅ INNE jednostki → klasyczny opis z szablonu
+    opis = opisyChorob[choroba] || '';
+    if (!opis.endsWith(dopisekKoncowy)) {
+      opis += dopisekKoncowy;
+    }
+
+    // pediatryczny wstęp
+    if (wiek < 18 && wiek > 0) {
+      const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
+      const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
+      const wstep = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się`;
+      opis = opis.replace(/00-letni pacjent zgłosił się|00-letnia pacjentka zgłosiła się/g, wstep);
+    } else {
+      opis = opis
+        .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
+        .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
+        .replace(/zgłosił się|zgłosiła się/, suf.zglosil_sie);
+    }
   }
 
-  // Dopisek końcowy
-  opis += 'Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.';
+  // ✅ Badanie przedmiotowe
+  let badanieOpis = '';
+  if (badaniaSpecyficzne.hasOwnProperty(choroba)) {
+    badanieOpis = badaniaSpecyficzne[choroba];
+    if (wiek < 16) {
+      badanieOpis = badanieOpis
+        .replace(/\b(pacjentka|pacjent)\b/g, 'dziecko')
+        .replace(/zgłosił się|zgłosiła się/g, 'zgłosił/a się');
+    } else {
+      badanieOpis = badanieOpis
+        .replace(/\b(pacjentka|pacjent)\b/g, suf.pacjent)
+        .replace(/zgłosił się|zgłosiła się/g, suf.zglosil_sie);
+    }
+  } else {
+    badanieOpis = opisBadanieBase[gender];
+  }
 
-  output.value = opis;
+  // ✅ Dodatkowo: neurologiczne
+  let opisNeurolog = '';
+  if ([
+    'rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy',
+    'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz', 'ugryzienie_kot',
+    'ugryzienie_owad', 'ugryzienie_pies'
+  ].includes(choroba)) {
+    opisNeurolog = `\n${opisNeurologiczne}`;
+  }
+
+  // ✅ EKG
+  const opisTemp = `\n\nTemp. st C, BP / mmHg, HR /min, SpO2 %.\n`;
+  const opisEKG = `\nEKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.\n`;
+
+  // ✅ Zalecenia
+  let zalecenia = '';
+  if (zaleceniaSpecyficzne.hasOwnProperty(choroba)) {
+    zalecenia = `\n${zaleceniaSpecyficzne[choroba]}`;
+  } else {
+    zalecenia = zaleceniaStale;
+  }
+
+  // ✅ Końcowy opis
+  const pelnyOpis = `${opis}${opisTemp}${badanieOpis}${opisNeurolog}${opisEKG}${zalecenia}`;
+  output.value = pelnyOpis;
 }
+
 
     function kopiujOpis() {
       const tekst = document.getElementById('chorobaOpis').value;
