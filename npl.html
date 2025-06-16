@@ -401,34 +401,35 @@ function wstawOpisChoroby() {
   const objawyDiv = document.getElementById(`${choroba}Objawy`);
   let opis = '';
   if (objawyDiv) {
-    objawyDiv.style.display = 'block';
+  objawyDiv.style.display = 'block';
 
-    // wywiad z checkboxów
-    const objawy = [...document.querySelectorAll(`input[name="obj${choroba}"]:checked`)]
-      .map(x => x.dataset.label);
+  const objawy = [...document.querySelectorAll(`input[name="obj${choroba}"]:checked`)]
+    .map(x => x.dataset.label);
 
-    const tempField = document.getElementById(`temp${choroba}`);
-    const temp = tempField ? tempField.value : '';
+  const tempField = document.getElementById(`temp${choroba}`);
+  const temp = tempField ? tempField.value : '';
 
-    // nagłówek
-    if (wiek < 18 && wiek > 0) {
-      const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
-      const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
-      opis = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL z powodu objawów ${choroba.replace('_', ' ')}. `;
-    } else {
-      opis = `${wiek}-${suf.letni} ${suf.pacjent} ${suf.zglosil_sie} do NPL z powodu objawów ${choroba.replace('_', ' ')}. `;
-    }
-
-    if (objawy.length) {
-      opis += `${suf.pacjent.charAt(0).toUpperCase() + suf.pacjent.slice(1)} zgłasza: ${objawy.join(', ')}. `;
-    }
-
-    if (temp) {
-      opis += `Temperatura ciała w domu: ${temp}°C. `;
-    }
-
-    opis += dopisekKoncowy;
+  // nowy, zwięzły nagłówek
+  if (wiek < 18 && wiek > 0) {
+    const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
+    const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
+    opis = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL`;
   } else {
+    opis = `${wiek}-${suf.letni} ${suf.pacjent} ${suf.zglosil_sie} do NPL`;
+  }
+
+  if (objawy.length > 0) {
+    opis += ` z objawami: ${objawy.join(', ')}. `;
+  } else {
+    opis += `. `;
+  }
+
+  if (temp) {
+    opis += `Temperatura ciała w domu: ${temp}°C. `;
+  }
+
+  opis += dopisekKoncowy;
+} else {
     // klasyczny szablon
     opis = opisyChorob[choroba] || '';
     if (!opis.endsWith(dopisekKoncowy)) opis += dopisekKoncowy;
