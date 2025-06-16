@@ -365,114 +365,75 @@
 
 };
 function getGenderSuffixes(gender) {
-      return gender === 'K' ? {
-        pacjent: 'pacjentka',
-        zgłosil_sie: 'zgłosiła się',
-        letni: 'letnia'
-      } : {
-        pacjent: 'pacjent',
-        zgłosil_sie: 'zgłosił się',
-        letni: 'letni'
-      };
-    }
+  return gender === 'K' ? {
+    pacjent: 'pacjentka',
+    zglosil_sie: 'zgłosiła się',
+    letni: 'letnia'
+  } : {
+    pacjent: 'pacjent',
+    zglosil_sie: 'zgłosił się',
+    letni: 'letni'
+  };
+}
     const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
-   function wstawOpisChoroby() {
-      const select = document.getElementById('chorobaSelect');
-      document.getElementById('infekcjaObjawy').style.display = (select.value === 'infekcja') ? 'block' : 'none';
-      const output = document.getElementById('chorobaOpis');
-      const wiek = parseInt(document.getElementById('wiek').value) || 0;
-      const gender = document.querySelector('input[name="plec"]:checked').value;
-      const suf = getGenderSuffixes(gender);
-          let objawyTekst = '';
-      if (select.value === 'infekcja') {
-        const objawy = [...document.querySelectorAll('input[name="objInf"]:checked')].map(x => x.value);
-        const temp = document.getElementById('tempInf').value;
-      
-        const objawyMap = {
-          dreszcze: 'dreszcze i nocne poty',
-          bole_miesni: 'bóle mięśni',
-          duszność: 'duszność spoczynkowa lub wysiłkowa',
-          swisty: 'świsty przy oddychaniu',
-          bol_lukow: 'ból w okolicy łuków żebrowych',
-          oslabienie: 'ogólne osłabienie',
-          bol_gardla: 'ból gardła',
-          kaszel_suchy: 'kaszel suchy',
-          kaszel_mokry: 'kaszel mokry',
-          wydzielina_biala: 'przezroczysta lub biała wydzielina',
-          wydzielina_zolta: 'żółta wydzielina',
-          wydzielina_zielona: 'zielona wydzielina',
-          katar: 'katar'
-        };
-      
-        const opisy = objawy.map(x => objawyMap[x]);
-        if (opisy.length) {
-          objawyTekst = `Pacjent zgłasza: ${opisy.join(', ')}. `;
-        }
-        if (temp) {
-          objawyTekst += `Temperatura ciała w domu: ${temp}°C. `;
-        }
-      }
+function wstawOpisChoroby() {
+  const select = document.getElementById('chorobaSelect');
+  const output = document.getElementById('chorobaOpis');
+  const wiek = parseInt(document.getElementById('wiek').value) || 0;
+  const gender = document.querySelector('input[name="plec"]:checked').value;
+  const suf = getGenderSuffixes(gender);
+  const choroba = select.value;
 
-      let opis = (opisyChorob[select.value] || '').replace('Pacjent zgłasza', objawyTekst || 'Pacjent zgłasza');
-    
-      // Dopisek końcowy jeśli brak
-      if (!opis.endsWith(dopisekKoncowy)) {
-        opis += dopisekKoncowy;
-      }
-    
-      // Wstęp pediatryczny dla <18, + słowo "dziecko" dla <16
-      if (wiek < 18 && wiek > 0) {
-        const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
-        const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
-        const wstep = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się`;
-        opis = opis.replace(/00-letni pacjent zgłosił się|00-letnia pacjentka zgłosiła się/g, wstep);
-      } else {
-        opis = opis
-          .replace(/00-letni|00-letnia/, `${wiek}-${suf.letni}`)
-          .replace(/\b(pacjentka|pacjent)\b/, suf.pacjent)
-          .replace(/(zgłosił się|zgłosiła się)/, suf.zgłosil_sie);
-      }
-    
-      // 🔄 PRZEDMIOTOWE — wybór: specyficzne badanie LUB domyślne
-      let badanieOpis = '';
-      if (badaniaSpecyficzne.hasOwnProperty(select.value)) {
-        badanieOpis = badaniaSpecyficzne[select.value];
-        // Dynamiczna zamiana końcówek
-        if (wiek < 16) {
-          badanieOpis = badanieOpis
-            .replace(/\b(pacjentka|pacjent)\b/g, 'dziecko')
-            .replace(/zgłosił się|zgłosiła się/g, 'zgłosił/a się');
-        } else {
-          badanieOpis = badanieOpis
-            .replace(/\b(pacjentka|pacjent)\b/g, suf.pacjent)
-            .replace(/zgłosił się|zgłosiła się/g, suf.zgłosil_sie);
-        }
-      } else {
-        badanieOpis = opisBadanieBase[gender];
-      }
-    
-      // 🔄 NEUROLOGICZNY (dodatek)
-      let opisNeurolog = '';
-      if ([
-        'rwa_kulszowa', 'zawroty_glowy', 'bol_kregoslupa', 'bol_glowy',
-        'bol_karku', 'hiperglikemia', 'ugryzienie_kleszcz', 'ugryzienie_kot',
-        'ugryzienie_owad', 'ugryzienie_pies'
-      ].includes(select.value)) {
-        opisNeurolog = `\n${opisNeurologiczne}`;
-      }
-    
-      // 🔄 ZALECENIA
-      let zalecenia = '';
-      if (zaleceniaSpecyficzne.hasOwnProperty(select.value)) {
-        zalecenia = `\n${zaleceniaSpecyficzne[select.value]}`;
-      } else {
-        zalecenia = zaleceniaStale;
-      }
-    
-      // 🔧 Ostateczny opis
-      const pelnyOpis = `${opis}${opisTemp}${badanieOpis}${opisNeurolog}${opisEKG}${zalecenia}`;
-      output.value = pelnyOpis;
+  // Pokazuj checkboxy tylko przy infekcji
+  document.getElementById('infekcjaObjawy').style.display = (choroba === 'infekcja') ? 'block' : 'none';
+
+  let opis = '';
+  if (choroba === 'infekcja') {
+    // OPIS WYWIADU – tylko z checkboxów
+    const objawy = [...document.querySelectorAll('input[name="objInf"]:checked')].map(x => x.value);
+    const temp = document.getElementById('tempInf').value;
+
+    const objawyMap = {
+      dreszcze: 'dreszcze i nocne poty',
+      bole_miesni: 'bóle mięśni',
+      duszność: 'duszność spoczynkowa lub wysiłkowa',
+      swisty: 'świsty przy oddychaniu',
+      bol_lukow: 'ból w okolicy łuków żebrowych',
+      oslabienie: 'ogólne osłabienie',
+      bol_gardla: 'ból gardła',
+      kaszel_suchy: 'kaszel suchy',
+      kaszel_mokry: 'kaszel mokry',
+      wydzielina_biala: 'przezroczysta lub biała wydzielina',
+      wydzielina_zolta: 'żółta wydzielina',
+      wydzielina_zielona: 'zielona wydzielina',
+      katar: 'katar'
+    };
+
+    const opisy = objawy.map(x => objawyMap[x]);
+
+    // Początek opisu zależny od wieku
+    if (wiek < 18 && wiek > 0) {
+      const dziecko = gender === 'M' ? 'chłopcem' : 'dziewczynką';
+      const przymiotnik = gender === 'M' ? 'letnim' : 'letnią';
+      opis = `Matka/Ojciec z ${wiek}-${przymiotnik} ${dziecko} zgłosił/a się do NPL z powodu objawów infekcji dróg oddechowych. `;
+    } else {
+      opis = `${wiek}-${suf.letni} ${suf.pacjent} ${suf.zglosil_sie} do NPL z powodu objawów infekcji dróg oddechowych. `;
     }
+
+    if (opisy.length > 0) {
+      opis += `${suf.pacjent.charAt(0).toUpperCase() + suf.pacjent.slice(1)} zgłasza: ${opisy.join(', ')}. `;
+    }
+
+    if (temp) {
+      opis += `Temperatura ciała w domu: ${temp}°C. `;
+    }
+  }
+
+  // Dopisek końcowy
+  opis += 'Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.';
+
+  output.value = opis;
+}
 
     function kopiujOpis() {
       const tekst = document.getElementById('chorobaOpis').value;
