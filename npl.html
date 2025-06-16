@@ -150,6 +150,23 @@
     <option value="zgon">Zgon</option>
   </optgroup>
 </select>
+<div id="infekcjaObjawy" style="display:none; padding: 10px; background:#f4f4f4; margin-top: 10px;">
+  <strong>Objawy infekcji dróg oddechowych:</strong><br>
+  <label><input type="checkbox" name="objInf" value="dreszcze"> Dreszcze i nocne poty</label><br>
+  <label><input type="checkbox" name="objInf" value="bole_miesni"> Bóle mięśni</label><br>
+  <label><input type="checkbox" name="objInf" value="duszność"> Duszność (spocz./wysiłkowa)</label><br>
+  <label><input type="checkbox" name="objInf" value="swisty"> Świsty przy oddychaniu</label><br>
+  <label><input type="checkbox" name="objInf" value="bol_lukow"> Ból w okolicy łuków żebrowych</label><br>
+  <label><input type="checkbox" name="objInf" value="oslabienie"> Ogólne osłabienie</label><br>
+  <label><input type="checkbox" name="objInf" value="bol_gardla"> Ból gardła</label><br>
+  <label><input type="checkbox" name="objInf" value="kaszel_suchy"> Kaszel suchy</label><br>
+  <label><input type="checkbox" name="objInf" value="kaszel_mokry"> Kaszel mokry</label><br>
+  <label><input type="checkbox" name="objInf" value="wydzielina_biala"> Wydzielina biała/przezroczysta</label><br>
+  <label><input type="checkbox" name="objInf" value="wydzielina_zolta"> Wydzielina żółta</label><br>
+  <label><input type="checkbox" name="objInf" value="wydzielina_zielona"> Wydzielina zielona</label><br>
+  <label><input type="checkbox" name="objInf" value="katar"> Katar</label><br>
+  <label>Temperatura (°C): <input type="number" id="tempInf" style="width:60px;"></label><br>
+</div>
    <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
 
   <div class="button-row">
@@ -361,12 +378,42 @@ function getGenderSuffixes(gender) {
     const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
    function wstawOpisChoroby() {
       const select = document.getElementById('chorobaSelect');
+      document.getElementById('infekcjaObjawy').style.display = (select.value === 'infekcja') ? 'block' : 'none';
       const output = document.getElementById('chorobaOpis');
       const wiek = parseInt(document.getElementById('wiek').value) || 0;
       const gender = document.querySelector('input[name="plec"]:checked').value;
       const suf = getGenderSuffixes(gender);
-    
-      let opis = opisyChorob[select.value] || '';
+          let objawyTekst = '';
+      if (select.value === 'infekcja') {
+        const objawy = [...document.querySelectorAll('input[name="objInf"]:checked')].map(x => x.value);
+        const temp = document.getElementById('tempInf').value;
+      
+        const objawyMap = {
+          dreszcze: 'dreszcze i nocne poty',
+          bole_miesni: 'bóle mięśni',
+          duszność: 'duszność spoczynkowa lub wysiłkowa',
+          swisty: 'świsty przy oddychaniu',
+          bol_lukow: 'ból w okolicy łuków żebrowych',
+          oslabienie: 'ogólne osłabienie',
+          bol_gardla: 'ból gardła',
+          kaszel_suchy: 'kaszel suchy',
+          kaszel_mokry: 'kaszel mokry',
+          wydzielina_biala: 'przezroczysta lub biała wydzielina',
+          wydzielina_zolta: 'żółta wydzielina',
+          wydzielina_zielona: 'zielona wydzielina',
+          katar: 'katar'
+        };
+      
+        const opisy = objawy.map(x => objawyMap[x]);
+        if (opisy.length) {
+          objawyTekst = `Pacjent zgłasza: ${opisy.join(', ')}. `;
+        }
+        if (temp) {
+          objawyTekst += `Temperatura ciała w domu: ${temp}°C. `;
+        }
+      }
+
+      let opis = (opisyChorob[select.value] || '').replace('Pacjent zgłasza', objawyTekst || 'Pacjent zgłasza');
     
       // Dopisek końcowy jeśli brak
       if (!opis.endsWith(dopisekKoncowy)) {
