@@ -150,30 +150,59 @@
     <option value="zgon">Zgon</option>
   </optgroup>
 </select>
-<div id="infekcjaObjawy" style="display:none; padding: 10px; background:#f4f4f4; margin-top: 10px;">
+<div id="infekcjaObjawy" style="display:none; padding: 10px; background:#eef; margin-top: 10px;">
   <strong>Objawy infekcji dróg oddechowych:</strong><br>
-  <label><input type="checkbox" name="objInf" value="dreszcze"> Dreszcze i nocne poty</label><br>
-  <label><input type="checkbox" name="objInf" value="bole_miesni"> Bóle mięśni</label><br>
-  <label><input type="checkbox" name="objInf" value="duszność"> Duszność (spocz./wysiłkowa)</label><br>
-  <label><input type="checkbox" name="objInf" value="swisty"> Świsty przy oddychaniu</label><br>
-  <label><input type="checkbox" name="objInf" value="bol_lukow"> Ból w okolicy łuków żebrowych</label><br>
-  <label><input type="checkbox" name="objInf" value="oslabienie"> Ogólne osłabienie</label><br>
-  <label><input type="checkbox" name="objInf" value="bol_gardla"> Ból gardła</label><br>
-  <label><input type="checkbox" name="objInf" value="kaszel_suchy"> Kaszel suchy</label><br>
-  <label><input type="checkbox" name="objInf" value="kaszel_mokry"> Kaszel mokry</label><br>
-  <label><input type="checkbox" name="objInf" value="wydzielina_biala"> Wydzielina biała/przezroczysta</label><br>
-  <label><input type="checkbox" name="objInf" value="wydzielina_zolta"> Wydzielina żółta</label><br>
-  <label><input type="checkbox" name="objInf" value="wydzielina_zielona"> Wydzielina zielona</label><br>
-  <label><input type="checkbox" name="objInf" value="katar"> Katar</label><br>
-  <label>Temperatura (°C): <input type="number" id="tempInf" style="width:60px;"></label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="dreszczy i nocnych potów"> Dreszcze i nocne poty</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="bólu mięśni"> Bóle mięśni</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="duszności spoczynkowej"> Duszność spoczynkowa</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="duszności wysiłkowej"> Duszność wsiłkowa</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="świstów przy oddychaniu"> Świsty przy oddychaniu</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="bólu w okolicy łuków żebrowych"> Ból w okolicy łuków żebrowych</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="ogólnego osłabienia"> Ogólne osłabienie</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="bólu gardła"> Ból gardła</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="kaszlu suchego"> Kaszel suchy</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="kaszlu mokrego"> Kaszel mokry</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="odkrztusza białą wydzielinę"> Wydzielina biała/przezroczysta</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="odkrztusza żółto-zieloną wydzielinę"> Wydzielina żółta</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="nie odkrztusza wydzieliny"> Brak wydzieliny</label><br>
+  <label><input type="checkbox" name="objinfekcja" data-label="kataru"> Katar</label><br>
+  <label>Temperatura (°C): <input type="number" id="tempinfekcja" style="width:60px;"></label><br>
 </div>
 
-  <div id="astmaObjawy" style="display:none; padding: 10px; background:#eef; margin-top: 10px;">
+<div id="astmaObjawy" style="display:none; padding: 10px; background:#eef; margin-top: 10px;">
   <strong>Objawy astmy:</strong><br>
-  <label><input type="checkbox" name="objastma" value="napad" data-label="napad duszności"> Napad duszności</label><br>
-  <label><input type="checkbox" name="objastma" value="gwizdy" data-label="świszczący oddech"> Świsty</label><br>
-  <label><input type="checkbox" name="objastma" value="suchy_kaszel" data-label="kaszel suchy"> Kaszel suchy</label><br>
+  <label><input type="checkbox" name="objastma" data-label="napadu duszności"> Napad duszności</label><br>
+  <label><input type="checkbox" name="objastma" data-label="świszczącego oddechu"> Świsty</label><br>
+  <label><input type="checkbox" name="objastma" data-label="kaszlu suchego"> Kaszel suchy</label><br>
+  <label><input type="checkbox" name="objastma" data-label="ściskania w klatce piersiowej"> Ściskanie w klatce</label><br>
+  <label><input type="checkbox" name="objastma" data-label="infekcji dróg oddechowych"> Objawy infekcji</label><br>
   <label>Temperatura (°C): <input type="number" id="tempastma" style="width:60px;"></label><br>
+</div>
+
+<div id="pochpObjawy" style="display:none; padding: 10px; background:#eef; margin-top: 10px;">
+  <strong>Objawy zaostrzenia POChP:</strong><br>
+  <label><input type="checkbox" name="objapochp" data-label="napadu duszności"> Zwiększona duszność wysiłkowa</label><br>
+  <label><input type="checkbox" name="objapochp" data-label="kaszlu mokrego"> Kaszel mokry</label><br>
+  <label><input type="checkbox" name="objapochp" data-label="zwiększonej ilości odpluwanej wydzieliny (pacjent choruje na POChP)"> Zwiekszona ilosc odpluwanej wydzieliny (choruje na POChP</label><br>
+  <label><input type="checkbox" name="objapochp" data-label="która ma charakter ropny"> Ropny charakter wydzieliny</label><br>
+  <label><input type="checkbox" name="objapochp" data-label="infekcji dróg oddechowych"> Objawy infekcji</label><br>
+  <label>Temperatura (°C): <input type="number" id="temppochp" style="width:60px;"></label><br>
+  <label><input type="checkbox" id="pochpUwagi" data-label="W wywiadzie przewlekły nikotynizm."> Przewlekły nikotynizm</label><br>
+</div>
+
+<div id="pochpObjawy" style="display:none; padding: 10px; background:#eef; margin-top: 10px;">
+  <strong>Objawy ból klatki:</strong><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="bólu w klatce piersiowej"> Ból w klatce</label><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="dolegliwości bólowych w obrębie klatki piersiowej zlokalizowanych zamostkowo"> Dolegliwości bólowych w obrębie klatki piersiowej zlokalizowanych zamostkowo</label><br>  
+  <label><input type="checkbox" name="objabol_klatki" data-label="ból nasila się podczas aktywności fizycznej, a ustępuje po kilku minutach spoczynku"> Ból asila się podczas aktywności fizycznej, a ustępuje po kilku minutach spoczynku</label><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="z towarzyszącym uczuciem duszności, oraz od pewnego czasu pogorszeniem tolerancji wysiłku."> Dusznosc i pogorszenie tolerancji wysilku od jakiegos czasu</label><br> 
+  <label><input type="checkbox" name="objabol_klatki" data-label="gniątacy, duszący"> Gniotący, duszący</label><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="nasilający się przy wysiłku"> Nasilajacy sie przy wysilku</label><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="stały, niezależny od cyklu oddechowego"> Stały, niezależny od cyklu oddechowego</label><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="promieniuje do lewego barku/szyi"> Promieniuje do lewego barku/szyi</label><br>
+  <label><input type="checkbox" name="objabol_klatki" data-label="nigdzie nie promieniuje"> Nigdzie nie promieniuje</label><br>
+  <label>Temperatura (°C): <input type="number" id="tempbol_klatki" style="width:60px;"></label><br>
+  <label><input type="checkbox" id="bol_klatkiUwagi" data-label="W wywiadzie hipercholesterolemia oraz nadciśnienie tętnicze."> W wywiadzie hipercholesterolemia, nadcisnienie tetnica</label><br>
 </div>
   
    <textarea id="chorobaOpis" placeholder="Tu pojawi się opis..." readonly></textarea>
@@ -384,7 +413,7 @@ function getGenderSuffixes(gender) {
     letni: 'letni'
   };
 }
-    const dopisekKoncowy = " Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
+    const dopisekKoncowy = "Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.";
 function wstawOpisChoroby() {
   const select = document.getElementById('chorobaSelect');
   const choroba = select.value;
