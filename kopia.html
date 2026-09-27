@@ -12,33 +12,41 @@
 <h1>Opisy wizyt NPL</h1>
 <div class="panel">
 <div class="controls">
-<label for="choroba">Opis<br><select id="choroba"><option value="standard">Standard</option><option value="ucho">Zapalenie ucha</option><option value="kleszcz">Ugryzienie przez kleszcza</option></select></label>
+<label for="choroba">Opis<br><select id="choroba"><option value="standard">Standard</option><option value="ucho">Zapalenie ucha</option><option value="kleszcz">Ugryzienie przez kleszcza</option><option value="cisnienie">Podwyższony pomiar ciśnienia</option><option value="infekcja">Infekcja dróg oddechowych</option></select></label>
 <label for="wiek">Wiek<br><input id="wiek" type="number" min="0" max="120" value="43" inputmode="numeric"></label>
 <div><label><input type="radio" name="plec" value="K" checked> Pacjentka</label> &nbsp; <label><input type="radio" name="plec" value="M"> Pacjent</label></div>
 </div>
-<p class="link" id="link"></p>
+<p class="link" id="link"></p><p id="icd"></p>
 </div>
 <div class="panel"><label for="opis">Opis do edycji i skopiowania</label><textarea id="opis" spellcheck="true"></textarea><div class="actions"><button id="kopiuj" type="button">Kopiuj opis</button><span id="status" role="status" aria-live="polite"></span></div></div>
 <script>
 const standardStart='z powodu zaczerwienienia i łzawienia oka. W wywiadzie brak urazu.';
 const earStart='z powodu nasilającego się od wczoraj silnego bólu ucha lewego, osłabienia słuchu, gorączki w pomiarze domowym – 39°C. Od kilku dni odczuwał osłabienie, katar oraz ból gardła.';
 const tickStart='z powodu ugryzienia przez kleszcza. Zauważył go dziś rano.';
+const pressureStart='z powodu wysokiego pomiaru ciśnienia tętniczego w pomiarach domowych -  mmHg. Uraz oraz bóle w klatce piersiowej neguje. Osłabienie siły mięśniowej neguje. Nie choruje przewlekle.';
+const infectionStart='z powodu trwającej od 2 dni uczucia osłabienia, kaszlu, przeważnie suchego, niemniej jednak z okresowym odpluwaniem wydzieliny. Nie ma kataru, ani bólu gardła. Zaburzenia węchu, smaku i inne dolegliwości neguje. Temperatura w pomiarach domowych 37 st C.';
 const general='Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi.';
 const abdomen='Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny.';
 const neck='Węzły chłonne szyjne niewyczuwalne w badaniu palpacyjnym.';
-const earExam='Brak bolesności przy opukiwaniu wyrostka sutkowatego. Brak odchyleń w badaniu zakresu unerwienia nerwu twarzowego. Objawy oponowe ujemne.  W badaniu otoskopowym w uchu prawym kanał słuchowy bez zmian zapalnych, błona bębenkowa całkowicie uwidoczniona, prześwitująca, bez perforacji, z prawidłowym refleksem świetlnym.\n\nW badaniu otoskopowym w uchu lewym kanał słuchowy bez zmian zapalnych, błona bębenkowa uwypuklona, zmętniona, silne przekrwiona, bez refleksu świetlnego.';
+const earExam='Brak bolesności przy opukiwaniu wyrostka sutkowatego. Brak odchyleń w badaniu zakresu unerwienia nerwu twarzowego. Objawy oponowe ujemne. W badaniu otoskopowym w uchu prawym kanał słuchowy bez zmian zapalnych, błona bębenkowa całkowicie uwidoczniona, prześwitująca, bez perforacji, z prawidłowym refleksem świetlnym. W badaniu otoskopowym w uchu lewym kanał słuchowy bez zmian zapalnych, błona bębenkowa uwypuklona, zmętniona, silne przekrwiona, bez refleksu świetlnego.';
 const tickExam='Objawy oponowe ujemne. Źrenice równe, symetryczne, prawidłowo reagujące na światło. Bez oczopląsu. Ruchy gałek ocznych zachowane w płaszczyźnie poziomej i pionowej. Czucie w obrębie twarzy zachowane. Pacjent czuje zapach oraz smak. Ruchy języka zachowane, łuki gardłowe symetryczne. Mimika symetryczna. Ruchy głowy i ramion zachowane. Ruchy języka zachowane. Siła mięśniowa L=P. Próba palec nos ujemna. Próba Romberga ujemna. Na skórze pleców widoczny insekt. Skóra wokół zaczerwieniona.\n\nKleszcza usunięto, miejsce ukąszenia zdezynfekowano.';
+const pressureExam='Kończyny dolne bez obrzęków. Źrenice równe, symetryczne, prawidłowo reagujące na światło. Bez oczopląsu. Ruchy gałek ocznych zachowane w płaszczyźnie poziomej i pionowej. Czucie w obrębie twarzy zachowane. Pacjent czuje zapach oraz smak. Ruchy języka zachowane, łuki gardłowe symetryczne. Mimika symetryczna. Ruchy głowy i ramion zachowane. Siła mięśniowa L=P. Próba palec nos ujemna. Próba Romberga ujemna.';
+const infectionExam='Płuca - pojedyncze świsty i furczenia nad całymi płucami, opukowo nad polami płucnymi odgłos jawny. Gardło nieznacznie przekrwione, migdałki schowane za łukami podniebiennymi, bez widocznej treści ropnej. Objawy oponowe ujemne.';
 const ekg='EKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.';
 const end='Ambulatoryjnie podano: xxxx\n\nZalecenia:\nxxxx\nW badaniu nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wezwanie ZRM/zgłoszenie się na SOR w przypadku wystąpienia objawów alarmowych (np. nasilający się ból, krwawienie z przewodu pokarmowego, gorączka, trudności w oddychaniu, wymioty, zaburzenia świadomości, wstrząs) o których poinformowano pacjenta. Ponadto przekazano informację o ryzyku związanym z nieprzestrzeganiem zaleceń lekarskich.';
 const select=document.getElementById('choroba'), age=document.getElementById('wiek'), output=document.getElementById('opis'), link=document.getElementById('link');
-function render(){const type=select.value, female=document.querySelector('input[name="plec"]:checked').value==='K';const subject=`${age.value.trim() || '43'}-letni${female?'a':''} ${female?'pacjentka zgłosiła':'pacjent zgłosił'} się do NPL`;
-let start=type==='ucho'?earStart:type==='kleszcz'?tickStart:standardStart;
+function render(){const type=select.value, female=document.querySelector('input[name="plec"]:checked').value==='K';const years=Number.parseInt(age.value,10);const child=years>0 && years<18;const subject=child?`Matka/Ojciec z ${years}-${female?'letnią dziewczynką':'letnim chłopcem'} zgłosił/a się do NPL`:`${age.value.trim() || '43'}-letni${female?'a':''} ${female?'pacjentka zgłosiła':'pacjent zgłosił'} się do NPL`;
+let start=({ucho:earStart,kleszcz:tickStart,cisnienie:pressureStart,infekcja:infectionStart})[type]||standardStart;
 if(female){start=start.replace('odczuwał','odczuwała').replace('Zauważył','Zauważyła')}
-let exam=type==='ucho'?earExam:abdomen;
-let text=[`${subject} ${start} Inne dolegliwości neguje. Uczuleń na leki – nie zgłasza.`, 'Temp. st C, BP / mmHg, HR /min, SpO2 %.', `${general} ${exam} ${neck}${type==='kleszcz'?'\n'+tickExam:''}`,ekg,end].join('\n\n');
-if(!female) text=text.replace('pacjentka wydolna','pacjent wydolny').replace('o których poinformowano pacjenta','o których poinformowano pacjenta');
+let exam=type==='ucho'?earExam:['kleszcz','infekcja'].includes(type)?'':abdomen;
+const examination=[general,exam,['kleszcz','infekcja'].includes(type)?'':neck,type==='cisnienie'?pressureExam:type==='infekcja'?infectionExam:''].filter(Boolean).join(' ')+(type==='kleszcz'?'\n'+tickExam:'');
+const recommendations=type==='ucho'?'Ibuprofen 400mg 3 razy dziennie':type==='kleszcz'?'Baczne obserwowanie skóry ciała w miejscu po ukąszeniu przez kolejny miesiąc pod kątem wystąpienia rumienia wędrującego - w przypadku wystąpienia pilny kontakt z lekarzem.':'xxxx';
+const ending=['standard','cisnienie'].includes(type)?end:end.replace('Ambulatoryjnie podano: xxxx\n\n','').replace('Zalecenia:\nxxxx',`Zalecenia:\n${recommendations}`);
+let text=[`${subject} ${start}${type==='infekcja'?'':' Inne dolegliwości neguje.'} Uczulenia na leki - nie zgłasza.`, 'Temp. st C, BP / mmHg, HR /min, SpO2 %.', examination,...(['standard','cisnienie'].includes(type)?[ekg]:[]),ending].join('\n\n');
+if(!female) text=text.replace('pacjentka wydolna','pacjent wydolny');
+if(child) text=text.replace('pacjentka wydolna','dziecko wydolne').replace('pacjent wydolny','dziecko wydolne');
 output.value=text;
-link.replaceChildren();if(type==='ucho'){const a=document.createElement('a');a.href='https://www.poz1.pl/jednostki/c9c88cbc-c5ac-4e30-820c-469fcdd357a2';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Otwórz stronę o zapaleniu ucha ↗';link.append(a)}document.getElementById('status').textContent='';}
+link.replaceChildren();const links={ucho:[['Zapalenie ucha','c9c88cbc-c5ac-4e30-820c-469fcdd357a2']],kleszcz:[['Ugryzienie przez kleszcza','e4542e8d-1b86-49e5-9988-1cbf0709199a']],cisnienie:[['Podwyższony pomiar ciśnienia','7e94344f-ce6e-4ef0-9cbc-769a1c1a61c8']],infekcja:[['Zapalenie płuc','bbcfb061-87be-4395-9fcc-bce883a8f0e6'],['Zapalenie oskrzeli','761fb14a-42a0-4bb6-b22e-d51462d81efe']]};for(const [name,id] of links[type]||[]){const a=document.createElement('a');a.href=`https://www.poz1.pl/jednostki/${id}`;a.target='_blank';a.rel='noopener noreferrer';a.textContent=name+' ↗';if(link.childNodes.length)link.append(' · ');link.append(a)}document.getElementById('icd').textContent=({standard:'',ucho:'ICD-10: H66.9 (zapalenie ucha środkowego, nieokreślone)',kleszcz:'ICD-10: W57 (ukąszenie przez niejadowitego stawonoga)',cisnienie:'ICD-10: R03.0 (podwyższony pomiar ciśnienia bez rozpoznania nadciśnienia)',infekcja:'ICD-10: J06.9 (ostra infekcja górnych dróg oddechowych, nieokreślona); zapalenie płuc: J18.9; zapalenie oskrzeli: J20.9'})[type];document.getElementById('status').textContent='';}
 select.addEventListener('change',render);age.addEventListener('change',render);document.querySelectorAll('input[name="plec"]').forEach(r=>r.addEventListener('change',render));
 document.getElementById('kopiuj').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(output.value);document.getElementById('status').textContent='Skopiowano.'}catch{output.select();document.getElementById('status').textContent='Zaznaczono tekst — użyj Ctrl+C.'}});render();
 </script>
