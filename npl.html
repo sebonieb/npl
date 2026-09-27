@@ -1,54 +1,75 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Opisy wizyt NPL</title>
-<style>
-:root{font-family:system-ui,Arial,sans-serif;color:#17212c;background:#f5f7fa}body{max-width:950px;margin:32px auto;padding:0 18px}h1{font-size:1.5rem} .panel{background:white;border:1px solid #dce2e9;border-radius:12px;padding:20px;margin-bottom:16px} .controls{display:flex;gap:16px;align-items:end;flex-wrap:wrap}label{font-weight:600}select,input,textarea,button{font:inherit}select,input[type=number]{padding:10px;border:1px solid #abb7c5;border-radius:7px}select{min-width:260px}input[type=number]{width:90px}.radio{font-weight:400} .link{min-height:1.4em;margin:14px 0 0}a{color:#125aa2}textarea{box-sizing:border-box;width:100%;min-height:570px;padding:16px;line-height:1.55;border:1px solid #abb7c5;border-radius:8px;resize:vertical}button{background:#175ea8;border:0;color:white;padding:10px 18px;border-radius:7px;cursor:pointer}button:hover{background:#104b87}.actions{display:flex;align-items:center;gap:12px;margin-top:12px}#status{color:#16713d}
-</style>
-</head>
-<body>
-<h1>Opisy wizyt NPL</h1>
-<div class="panel">
-<div class="controls">
-<label for="choroba">Opis<br><select id="choroba"><option value="standard">Standard</option><option value="ucho">Zapalenie ucha</option><option value="kleszcz">Ugryzienie przez kleszcza</option><option value="cisnienie">Podwyższony pomiar ciśnienia</option><option value="infekcja">Infekcja dróg oddechowych</option></select></label>
-<label for="wiek">Wiek<br><input id="wiek" type="number" min="0" max="120" value="43" inputmode="numeric"></label>
-<div><label><input type="radio" name="plec" value="K" checked> Pacjentka</label> &nbsp; <label><input type="radio" name="plec" value="M"> Pacjent</label></div>
-</div>
-<p class="link" id="link"></p><p id="icd"></p>
-</div>
-<div class="panel"><label for="opis">Opis do edycji i skopiowania</label><textarea id="opis" spellcheck="true"></textarea><div class="actions"><button id="kopiuj" type="button">Kopiuj opis</button><span id="status" role="status" aria-live="polite"></span></div></div>
-<script>
-const standardStart='z powodu zaczerwienienia i łzawienia oka. W wywiadzie brak urazu.';
-const earStart='z powodu nasilającego się od wczoraj silnego bólu ucha lewego, osłabienia słuchu, gorączki w pomiarze domowym – 39°C. Od kilku dni odczuwał osłabienie, katar oraz ból gardła.';
-const tickStart='z powodu ugryzienia przez kleszcza. Zauważył go dziś rano.';
-const pressureStart='z powodu wysokiego pomiaru ciśnienia tętniczego w pomiarach domowych -  mmHg. Uraz oraz bóle w klatce piersiowej neguje. Osłabienie siły mięśniowej neguje. Nie choruje przewlekle.';
-const infectionStart='z powodu trwającej od 2 dni uczucia osłabienia, kaszlu, przeważnie suchego, niemniej jednak z okresowym odpluwaniem wydzieliny. Nie ma kataru, ani bólu gardła. Zaburzenia węchu, smaku i inne dolegliwości neguje. Temperatura w pomiarach domowych 37 st C.';
-const general='Stan ogólny dobry, pacjentka wydolna krążeniowo-oddechowo, w kontakcie logicznym. Akcja serca miarowa, bez wyraźnie słyszalnych szmerów patologicznych. Szmer pęcherzykowy symetryczny obustronnie nad polami płucnymi.';
-const abdomen='Brzuch miękki, niebolesny, bez oporów patologicznych, bez objawów otrzewnowych. Perystaltyka zachowana. Objaw Blumberga ujemny.';
-const neck='Węzły chłonne szyjne niewyczuwalne w badaniu palpacyjnym.';
-const earExam='Brak bolesności przy opukiwaniu wyrostka sutkowatego. Brak odchyleń w badaniu zakresu unerwienia nerwu twarzowego. Objawy oponowe ujemne. W badaniu otoskopowym w uchu prawym kanał słuchowy bez zmian zapalnych, błona bębenkowa całkowicie uwidoczniona, prześwitująca, bez perforacji, z prawidłowym refleksem świetlnym. W badaniu otoskopowym w uchu lewym kanał słuchowy bez zmian zapalnych, błona bębenkowa uwypuklona, zmętniona, silne przekrwiona, bez refleksu świetlnego.';
-const tickExam='Objawy oponowe ujemne. Źrenice równe, symetryczne, prawidłowo reagujące na światło. Bez oczopląsu. Ruchy gałek ocznych zachowane w płaszczyźnie poziomej i pionowej. Czucie w obrębie twarzy zachowane. Pacjent czuje zapach oraz smak. Ruchy języka zachowane, łuki gardłowe symetryczne. Mimika symetryczna. Ruchy głowy i ramion zachowane. Ruchy języka zachowane. Siła mięśniowa L=P. Próba palec nos ujemna. Próba Romberga ujemna. Na skórze pleców widoczny insekt. Skóra wokół zaczerwieniona.\n\nKleszcza usunięto, miejsce ukąszenia zdezynfekowano.';
-const pressureExam='Kończyny dolne bez obrzęków. Źrenice równe, symetryczne, prawidłowo reagujące na światło. Bez oczopląsu. Ruchy gałek ocznych zachowane w płaszczyźnie poziomej i pionowej. Czucie w obrębie twarzy zachowane. Pacjent czuje zapach oraz smak. Ruchy języka zachowane, łuki gardłowe symetryczne. Mimika symetryczna. Ruchy głowy i ramion zachowane. Siła mięśniowa L=P. Próba palec nos ujemna. Próba Romberga ujemna.';
-const infectionExam='Płuca - pojedyncze świsty i furczenia nad całymi płucami, opukowo nad polami płucnymi odgłos jawny. Gardło nieznacznie przekrwione, migdałki schowane za łukami podniebiennymi, bez widocznej treści ropnej. Objawy oponowe ujemne.';
-const ekg='EKG - rytm serca zatokowy, miarowy o częstości /min, oś serca pośrednia. Bez wyraźnie widocznych specyficznych zmian odcinka ST-T.';
-const end='Ambulatoryjnie podano: xxxx\n\nZalecenia:\nxxxx\nW badaniu nie stwierdzono ewidentnych cech ostrego stanu zagrożenia życia. Zalecono obserwację i kontakt z lekarzem w razie braku poprawy, pogorszenia stanu zdrowia lub wezwanie ZRM/zgłoszenie się na SOR w przypadku wystąpienia objawów alarmowych (np. nasilający się ból, krwawienie z przewodu pokarmowego, gorączka, trudności w oddychaniu, wymioty, zaburzenia świadomości, wstrząs) o których poinformowano pacjenta. Ponadto przekazano informację o ryzyku związanym z nieprzestrzeganiem zaleceń lekarskich.';
-const select=document.getElementById('choroba'), age=document.getElementById('wiek'), output=document.getElementById('opis'), link=document.getElementById('link');
-function render(){const type=select.value, female=document.querySelector('input[name="plec"]:checked').value==='K';const years=Number.parseInt(age.value,10);const child=years>0 && years<18;const subject=child?`Matka/Ojciec z ${years}-${female?'letnią dziewczynką':'letnim chłopcem'} zgłosił/a się do NPL`:`${age.value.trim() || '43'}-letni${female?'a':''} ${female?'pacjentka zgłosiła':'pacjent zgłosił'} się do NPL`;
-let start=({ucho:earStart,kleszcz:tickStart,cisnienie:pressureStart,infekcja:infectionStart})[type]||standardStart;
-if(female){start=start.replace('odczuwał','odczuwała').replace('Zauważył','Zauważyła')}
-let exam=type==='ucho'?earExam:['kleszcz','infekcja'].includes(type)?'':abdomen;
-const examination=[general,exam,['kleszcz','infekcja'].includes(type)?'':neck,type==='cisnienie'?pressureExam:type==='infekcja'?infectionExam:''].filter(Boolean).join(' ')+(type==='kleszcz'?'\n'+tickExam:'');
-const recommendations=type==='ucho'?'Ibuprofen 400mg 3 razy dziennie':type==='kleszcz'?'Baczne obserwowanie skóry ciała w miejscu po ukąszeniu przez kolejny miesiąc pod kątem wystąpienia rumienia wędrującego - w przypadku wystąpienia pilny kontakt z lekarzem.':'xxxx';
-const ending=['standard','cisnienie'].includes(type)?end:end.replace('Ambulatoryjnie podano: xxxx\n\n','').replace('Zalecenia:\nxxxx',`Zalecenia:\n${recommendations}`);
-let text=[`${subject} ${start}${type==='infekcja'?'':' Inne dolegliwości neguje.'} Uczulenia na leki - nie zgłasza.`, 'Temp. st C, BP / mmHg, HR /min, SpO2 %.', examination,...(['standard','cisnienie'].includes(type)?[ekg]:[]),ending].join('\n\n');
-if(!female) text=text.replace('pacjentka wydolna','pacjent wydolny');
-if(child) text=text.replace('pacjentka wydolna','dziecko wydolne').replace('pacjent wydolny','dziecko wydolne');
-output.value=text;
-link.replaceChildren();const links={ucho:[['Zapalenie ucha','c9c88cbc-c5ac-4e30-820c-469fcdd357a2']],kleszcz:[['Ugryzienie przez kleszcza','e4542e8d-1b86-49e5-9988-1cbf0709199a']],cisnienie:[['Podwyższony pomiar ciśnienia','7e94344f-ce6e-4ef0-9cbc-769a1c1a61c8']],infekcja:[['Zapalenie płuc','bbcfb061-87be-4395-9fcc-bce883a8f0e6'],['Zapalenie oskrzeli','761fb14a-42a0-4bb6-b22e-d51462d81efe']]};for(const [name,id] of links[type]||[]){const a=document.createElement('a');a.href=`https://www.poz1.pl/jednostki/${id}`;a.target='_blank';a.rel='noopener noreferrer';a.textContent=name+' ↗';if(link.childNodes.length)link.append(' · ');link.append(a)}document.getElementById('icd').textContent=({standard:'',ucho:'ICD-10: H66.9 (zapalenie ucha środkowego, nieokreślone)',kleszcz:'ICD-10: W57 (ukąszenie przez niejadowitego stawonoga)',cisnienie:'ICD-10: R03.0 (podwyższony pomiar ciśnienia bez rozpoznania nadciśnienia)',infekcja:'ICD-10: J06.9 (ostra infekcja górnych dróg oddechowych, nieokreślona); zapalenie płuc: J18.9; zapalenie oskrzeli: J20.9'})[type];document.getElementById('status').textContent='';}
-select.addEventListener('change',render);age.addEventListener('change',render);document.querySelectorAll('input[name="plec"]').forEach(r=>r.addEventListener('change',render));
-document.getElementById('kopiuj').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(output.value);document.getElementById('status').textContent='Skopiowano.'}catch{output.select();document.getElementById('status').textContent='Zaznaczono tekst — użyj Ctrl+C.'}});render();
-</script>
-</body>
-</html>
+<details id="ekgDetails">
+  <summary>Zasady opisu EKG</summary>
+  <table style="border-collapse: collapse; width: 100%; font-family: sans-serif;">
+    <thead>
+      <tr style="background-color: #f2f2f2;">
+        <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kryterium</th>
+        <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Opis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #ccc; padding: 8px;">Rytm zatokowy</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">Załamki P <span style="color:green">II+</span> oraz <span style="color:red">aVR−</span></td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; padding: 8px;">Oś serca</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">
+          Oś pośrednia: I+ aVF+ lub I+ aVF− II+<br>
+          Lewogram: I+ aVF− II−<br>
+          Prawogram: I− aVF+<br>
+          Oś nieokreślona: I− aVF−
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; padding: 8px;">QRS</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">
+          Wąskie: &lt;3 małe kratki<br>
+          Szerokie: &gt;3 małe kratki
+        </td>
+      </tr>
+      <tr style="background-color:#fff6f6;">
+        <td style="border: 1px solid #ccc; padding: 8px;">Blok p-k I stopnia</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">Odstęp PQ stale &gt;200 ms (5 małych kratek)</td>
+      </tr>
+      <tr style="background-color:#fff6f6;">
+        <td style="border: 1px solid #ccc; padding: 8px;">Blok p-k II stopnia</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">
+          Typ I: wydłużający się PQ, aż do wypadnięcia QRS<br>
+          Typ II: stały PQ, okresowo wypada QRS
+        </td>
+      </tr>
+      <tr style="background-color:#fff6f6;">
+        <td style="border: 1px solid #ccc; padding: 8px;">Blok p-k III stopnia</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">Zmienny czas PQ, różna morfologia QRS, rytm komór wolniejszy od przedsionków</td>
+      </tr>
+      <tr style="background-color:#ffeade;">
+        <td style="border: 1px solid #ccc; padding: 8px;">RBBB / LBBB</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">
+          QRS ≥120 ms (3 małe kratki):
+          <a href="https://www.poz1.pl/jednostki/e411bae1-653c-44da-9a13-9588a33a3c4c" target="_blank" rel="noopener noreferrer">LINK</a>
+        </td>
+      </tr>
+      <tr style="background-color:#fff8de;">
+        <td style="border: 1px solid #ccc; padding: 8px;">LAH</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">QRS &lt;120 ms; lewogram</td>
+      </tr>
+      <tr style="background-color:#fff8de;">
+        <td style="border: 1px solid #ccc; padding: 8px;">LPH</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">QRS &lt;120 ms; prawogram</td>
+      </tr>
+      <tr style="background-color:#fff6f6;">
+        <td style="border: 1px solid #ccc; padding: 8px;">Zahamowanie zatokowe</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">Brak załamka P przez czas dłuższy niż 2 poprzedzające odstępy PP; pauza nie jest wielokrotnością odstępu PP</td>
+      </tr>
+      <tr style="background-color:#fff6f6;">
+        <td style="border: 1px solid #ccc; padding: 8px;">Blok z-p typu I</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">Stopniowe skracanie odstępów PP z wypadnięciem jednego z załamków P; przerwa stanowi &lt;2 poprzednich PP</td>
+      </tr>
+      <tr style="background-color:#fff6f6;">
+        <td style="border: 1px solid #ccc; padding: 8px;">Blok z-p typu II</td>
+        <td style="border: 1px solid #ccc; padding: 8px;">Wypadanie załamka P 2:1 lub 3:1; pauza stanowi wielokrotność poprzednich PP</td>
+      </tr>
+    </tbody>
+  </table>
+</details>
